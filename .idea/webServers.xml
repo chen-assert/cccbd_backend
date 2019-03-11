@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="739a7ba7-37ab-40c2-9659-d3074b5cb9ce" name="cccbd.top" url="http://cccbd.top">
+        <fileTransfer host="cccbd.top" port="22" rootFolder="/usr/local/apache-tomcat-8.5.38/webapps" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
