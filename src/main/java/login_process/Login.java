@@ -1,14 +1,20 @@
 package login_process;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-@Path("/login/{username}/{password}")
+@Path("/login")
+@Produces("text/plain; charset=utf-8")
 public class Login {
     @GET
-    public Response login(@PathParam("username") String name, @PathParam("password") String pass) {
+    @Path("/")
+    public Response pleaseLogin() {
+        Response response = Response.status(200).entity("Please login in").build();
+        return response;
+    }
+    @GET
+    @Path("/try")
+    public Response login(@QueryParam("username") String name, @QueryParam("password") String pass) {
         if (name.equals("n1") && pass.equals("n2")) {
             return Response.status(200).entity("login success").build();
         }
