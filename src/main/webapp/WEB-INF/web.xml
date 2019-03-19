@@ -44,7 +44,16 @@
             <param-value>login_and_register.RegisterApplication</param-value>
         </init-param>
     </servlet>
-
+    <servlet>
+        <servlet-name>servlet_account</servlet-name>
+        <servlet-class>
+            org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher
+        </servlet-class>
+        <init-param>
+            <param-name>javax.ws.rs.Application</param-name>
+            <param-value>login_and_register.AccountApplication</param-value>
+        </init-param>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>resteasy-servlet</servlet-name>
@@ -54,6 +63,10 @@
     <servlet-mapping>
         <servlet-name>servlet_login</servlet-name>
         <url-pattern>/login/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>servlet_account</servlet-name>
+        <url-pattern>/account/*</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>

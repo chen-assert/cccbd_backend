@@ -6,11 +6,11 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.sql.*;
 
-import static sql.sqldata.*;
+import static sql.sqldata.url;
 
 @Path("/login")
 @Produces("text/plain; charset=utf-8")
-public class Login {
+public class Account {
     @GET
     @Path("/")
     public Response pleaseLogin() {
