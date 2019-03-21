@@ -23,7 +23,13 @@ public class Register {
                              @QueryParam("id") String id, @QueryParam("gender") String gender)
             throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.jdbc.Driver");
-        Connection conn = DriverManager.getConnection(url, sqldata.username, sqldata.password);
+        //Connection conn = DriverManager.getConnection(url, sqldata.username, sqldata.password);
+        Connection conn;
+        try {
+            conn = new sqldata().getSingletons().getConnection();
+        }catch(Exception e){
+            return Response.status(403).entity("sql pool fail!!").build();
+        }
         PreparedStatement checkps = conn.prepareStatement("select * from mytest where name=?");
         checkps.setString(1, username);
         ResultSet resultSet = checkps.executeQuery();

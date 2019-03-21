@@ -37,5 +37,6 @@ I also not sure how to write that, so just a experiment version<br>
     Register success, your username is: username
 
 ##todo
-* change all return value to json format
-* test auto generage api document
+* change return value to json format
+* test auto generage api document X
+* change framework to spring boot......
