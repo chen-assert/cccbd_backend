@@ -4,9 +4,10 @@ import sql.sqldata;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.sql.*;
-
-import static sql.sqldata.url;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 @Path("/register")
 @Produces("text/plain; charset=utf-8")
@@ -19,26 +20,25 @@ public class Register {
 
     @GET
     @Path("/send")
-    public Response register(@QueryParam("username") String username, @QueryParam("password") String password,
-                             @QueryParam("id") String id, @QueryParam("gender") String gender)
+    public Response register(@QueryParam("username") String username,
+                             @QueryParam("password") String password, @QueryParam("gender") String gender)
             throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.jdbc.Driver");
         //Connection conn = DriverManager.getConnection(url, sqldata.username, sqldata.password);
         Connection conn;
         try {
             conn = new sqldata().getSingletons().getConnection();
-        }catch(Exception e){
+        } catch (Exception e) {
             return Response.status(403).entity("sql pool fail!!").build();
         }
         PreparedStatement checkps = conn.prepareStatement("select * from mytest where name=?");
         checkps.setString(1, username);
         ResultSet resultSet = checkps.executeQuery();
         if (!resultSet.next()) {
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO `cccbd`.`mytest` (`name`, `pass`,`id`,`gender`) VALUES (?, ?,?,?)");
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO `cccbd`.`mytest` (`name`, `pass`,`gender`) VALUES (?, ?,?,?)");
             ps.setString(1, username);
             ps.setString(2, password);
-            ps.setString(3, id);
-            ps.setString(4, gender);
+            ps.setString(3, gender);
             int execute = ps.executeUpdate();
             if (execute != 0) {
                 return Response.status(200).entity("Register success, your username is:" + username).build();
@@ -51,10 +51,10 @@ public class Register {
 
     @POST
     @Path("/send")
-    public Response register2(@FormParam("username") String username, @FormParam("password") String password,
-                              @FormParam("id") String id, @FormParam("gender") String gender)
+    public Response register2(@FormParam("username") String username,
+                              @FormParam("password") String password, @FormParam("gender") String gender)
             throws SQLException, ClassNotFoundException {
-        return register(username, password, id, gender);
+        return register(username, password, gender);
     }
 }
 

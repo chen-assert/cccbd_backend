@@ -5,6 +5,7 @@ import sql.sqldata;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import java.io.Serializable;
 import java.sql.Connection;
@@ -62,118 +63,24 @@ public class AccountList {
         }
     }
 
-    class test2 implements Serializable {
-        private static final long serialVersionUID = 1L;
-        int a;
-        String b;
-        double c;
-        LinkedList<Integer> e;
-
-        public test2() {
-            a = 10;
-            b = "20";
-            c = 30.5;
-            e = new LinkedList<Integer>();
-            e.addLast(10);
-            e.addLast(20);
-        }
-
-        public int getA() {
-            return a;
-        }
-
-        public void setA(int a) {
-            this.a = a;
-        }
-
-        public String getB() {
-            return b;
-        }
-
-        public void setB(String b) {
-            this.b = b;
-        }
-
-        public double getC() {
-            return c;
-        }
-
-        public void setC(double c) {
-            this.c = c;
-        }
-
-        public LinkedList<Integer> getE() {
-            return e;
-        }
-
-        public void setE(LinkedList<Integer> e) {
-            this.e = e;
-        }
-    }
-
-    class test implements Serializable {
-        private static final long serialVersionUID = 1L;
-        int a;
-        String b;
-        double c;
-        test2 d;
-
-        public test() {
-            a = 10;
-            b = "20";
-            c = 30.5;
-            d = new test2();
-        }
-
-        public int getA() {
-            return a;
-        }
-
-        public void setA(int a) {
-            this.a = a;
-        }
-
-        public String getB() {
-            return b;
-        }
-
-        public void setB(String b) {
-            this.b = b;
-        }
-
-        public double getC() {
-            return c;
-        }
-
-        public void setC(double c) {
-            this.c = c;
-        }
-
-        public test2 getD() {
-            return d;
-        }
-
-        public void setD(test2 d) {
-            this.d = d;
-        }
-    }
-
     @GET
     @Path("/")
     @Produces("application/json")
-    public Response AccountList() throws ClassNotFoundException, SQLException {
+    public Response ReList(@QueryParam("limit") int limit) throws ClassNotFoundException, SQLException {
         Connection conn;
         try {
             conn = new sqldata().getSingletons().getConnection();
         } catch (Exception e) {
             return Response.status(403).entity("sql pool fail!!").build();
         }
-        PreparedStatement ps = conn.prepareStatement("select * from mytest");
+        PreparedStatement ps = conn.prepareStatement("select * from mytest limit ?");
+        if(limit==0)limit=10;
+        ps.setInt(1, limit);
         ResultSet rs = ps.executeQuery();
         LinkedList<user> users = new LinkedList<user>();
         while (rs.next()) {
             users.add(new user(rs.getString("name"), rs.getString("pass"),
-                    rs.getString("id"), rs.getString("gender")));
+                    rs.getString("uid"), rs.getString("gender")));
         }
         return Response.status(200).entity(users).build();
 
