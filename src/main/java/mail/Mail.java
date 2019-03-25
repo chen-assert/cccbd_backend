@@ -26,7 +26,6 @@ public class Mail {
             Content content = new Content("text/plain", "We can add verification code in here.");
             com.sendgrid.Mail mail = new com.sendgrid.Mail(from, subject, to, content);
             //String sendgrid_api_key = System.getenv("SENDGRID_API_KEY");
-            String sendgrid_api_key="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";
             SendGrid sg = new SendGrid(sendgrid_api_key);
             Request request = new Request();
             request.setMethod(Method.POST);

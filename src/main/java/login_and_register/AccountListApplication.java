@@ -18,6 +18,7 @@ public class AccountListApplication extends Application {
         singletons.add(new AccountList());
 
 
+
     }
 
     @Override
