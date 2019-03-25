@@ -10,6 +10,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import java.sql.SQLException;
 
+import static sql.sqldata.sendgrid_api_key;
+
+
 @Path("/mail")
 public class Mail {
     @GET
