@@ -80,5 +80,7 @@ http://cccbd.top:8080/RESTHello
 
 ###### todo
 * change return value to json format
-* test auto generate api document X
+* test auto generate api document (fail)
 * change framework to spring boot...?
+* 邮件发送 (完成)
+* 改写web.xml为autoscan模式

@@ -54,6 +54,16 @@
             <param-value>login_and_register.AccountListApplication</param-value>
         </init-param>
     </servlet>
+    <servlet>
+        <servlet-name>mail</servlet-name>
+        <servlet-class>
+            org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher
+        </servlet-class>
+        <init-param>
+            <param-name>javax.ws.rs.Application</param-name>
+            <param-value>mail.MailApplication</param-value>
+        </init-param>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>resteasy-servlet</servlet-name>
@@ -72,6 +82,11 @@
     <servlet-mapping>
         <servlet-name>servlet_register</servlet-name>
         <url-pattern>/register/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>mail</servlet-name>
+        <url-pattern>/mail/*</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>

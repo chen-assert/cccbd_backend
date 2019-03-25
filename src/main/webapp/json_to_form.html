@@ -1,0 +1,59 @@
+<script>
+
+    // Builds the HTML Table out of myList.
+    function buildHtmlTable(selector) {
+        $(selector).empty();
+        let xmlhttp = new XMLHttpRequest();
+        let url = "http://cccbd.top:8080/RESTHello/account?limit=10";
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+		xmlhttp.onreadystatechange = function () {
+			if(xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+				let myArr = JSON.parse(xmlhttp.responseText);
+				console.log(xmlhttp.responseText);
+				var columns = addAllColumnHeaders(myArr, selector);
+				for (var i = 0; i < myArr.length; i++) {
+					var row$ = $('<tr/>');
+					for (var colIndex = 0; colIndex < columns.length; colIndex++) {
+						var cellValue = myArr[i][columns[colIndex]];
+						if (cellValue == null) cellValue = "";
+						row$.append($('<td/>').html(cellValue));
+                }
+                $(selector).append(row$);
+            }
+			}
+            
+        };
+    }
+
+    // Adds a header row to the table and returns the set of columns.
+    // Need to do union of keys from all records as some records may not contain
+    // all records.
+    function addAllColumnHeaders(myList, selector) {
+        var columnSet = [];
+        var headerTr$ = $('<tr/>');
+        for (var i = 0; i < myList.length; i++) {
+            var rowHash = myList[i];
+            for (var key in rowHash) {
+                if ($.inArray(key, columnSet) === -1) {
+                    columnSet.push(key);
+                    headerTr$.append($('<th/>').html(key));
+                }
+            }
+        }
+        $(selector).append(headerTr$);
+        return columnSet;
+    }
+</script>
+<script src="jquery-3.3.1.js"></script>
+<head>
+    <meta charset="utf-8">
+</head>
+<body>
+<!--<body onLoad="buildHtmlTable('#excelDataTable')">-->
+
+<table id="excelDataTable" border="1">
+
+</table>
+<button type="button" onclick="buildHtmlTable('#excelDataTable')">点我!</button>
+</body>

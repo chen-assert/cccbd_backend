@@ -1,23 +1,22 @@
-package login_and_register;
+package mail;
 
 import org.jboss.resteasy.plugins.interceptors.CorsFilter;
-import sql.sqldata;
+import sql.sqlpool;
 
 import javax.ws.rs.core.Application;
 import java.util.HashSet;
 import java.util.Set;
 
-public class RegisterApplication extends Application {
+public class MailApplication extends Application {
     private Set<Object> singletons = new HashSet<Object>();
 
-    public RegisterApplication() {
-        new sqldata();
+    public MailApplication() {
+        new sqlpool();
         CorsFilter corsFilter = new CorsFilter();
         corsFilter.getAllowedOrigins().add("*");
         corsFilter.setAllowedMethods("OPTIONS, GET, POST, DELETE, PUT, PATCH");
         singletons.add(corsFilter);
-        // Register our hello service
-        singletons.add(new Register());
+        singletons.add(new Mail());
     }
 
     @Override

@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Path("/login")
-
 public class Login {
     class Message implements Serializable {
         int status;

@@ -1,8 +1,5 @@
-package login_and_register; // {{ groupId}}.app
-// import the rest service you created!
+package login_and_register;
 
-import org.apache.tomcat.jdbc.pool.DataSource;
-import org.apache.tomcat.jdbc.pool.PoolProperties;
 import org.jboss.resteasy.plugins.interceptors.CorsFilter;
 
 import javax.ws.rs.core.Application;
@@ -19,7 +16,6 @@ public class AccountListApplication extends Application {
         singletons.add(corsFilter);
         // Register our hello service
         singletons.add(new AccountList());
-
 
 
     }

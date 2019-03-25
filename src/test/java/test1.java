@@ -1,4 +1,5 @@
 import com.nicolaifsf.rest.HelloRestService;
+import com.sendgrid.*;
 import org.jboss.resteasy.core.Dispatcher;
 import org.jboss.resteasy.mock.MockDispatcherFactory;
 import org.jboss.resteasy.mock.MockHttpRequest;
@@ -9,11 +10,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import javax.ws.rs.core.Response;
+import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 
 public class test1 {
     private static Dispatcher dispatcher;
     private static POJOResourceFactory noDefaults;
+
     // This code here gets run before our tests begin
     @BeforeClass
     public static void setup() {
@@ -21,6 +24,7 @@ public class test1 {
         noDefaults = new POJOResourceFactory(HelloRestService.class);
         dispatcher.getRegistry().addResourceFactory(noDefaults);
     }
+
     // One of our actual tests!
     @Test
     public void helloTest() {
