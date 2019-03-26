@@ -17,16 +17,19 @@ import java.util.LinkedList;
 @Path("/account")
 public class AccountList {
     class user implements Serializable {
+        String uid;
         String name;
         String pass;
-        String id;
         String gender;
+        String email;
 
-        public user(String name, String pass, String id, String gender) {
+
+        public user(String uid, String name, String pass, String gender, String email) {
+            this.uid = uid;
             this.name = name;
             this.pass = pass;
-            this.id = id;
             this.gender = gender;
+            this.email = email;
         }
 
 
@@ -46,12 +49,12 @@ public class AccountList {
             this.pass = pass;
         }
 
-        public String getId() {
-            return id;
+        public String getUid() {
+            return uid;
         }
 
-        public void setId(String id) {
-            this.id = id;
+        public void setUid(String uid) {
+            this.uid = uid;
         }
 
         public String getGender() {
@@ -60,6 +63,14 @@ public class AccountList {
 
         public void setGender(String gender) {
             this.gender = gender;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
         }
     }
 
@@ -73,14 +84,14 @@ public class AccountList {
         } catch (Exception e) {
             return Response.status(403).entity("sql pool fail!!").build();
         }
-        PreparedStatement ps = conn.prepareStatement("select * from mytest limit ?");
-        if(limit==0)limit=10;
+        PreparedStatement ps = conn.prepareStatement("select * from User limit ?");
+        if (limit == 0) limit = 10;
         ps.setInt(1, limit);
         ResultSet rs = ps.executeQuery();
         LinkedList<user> users = new LinkedList<user>();
         while (rs.next()) {
-            users.add(new user(rs.getString("name"), rs.getString("pass"),
-                    rs.getString("uid"), rs.getString("gender")));
+            users.add(new user(rs.getString("uid"), rs.getString("name"), rs.getString("pass"),
+                    rs.getString("gender"), rs.getString("email")));
         }
         return Response.status(200).entity(users).build();
 

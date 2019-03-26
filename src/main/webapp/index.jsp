@@ -11,6 +11,6 @@
     <title>$Title$</title>
   </head>
   <body>
-  how to use?
+  This is default page
   </body>
 </html>

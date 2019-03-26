@@ -41,7 +41,8 @@ http://cccbd.top:8080/RESTHello
     @api {get/post} /login/send/
     @apiParam {String} username 
     @apiParam {String} password 
-    @apiParam {String} gender 
+    @apiParam {String} gender
+    @apiParam {String} email  
     @Produces("plain/text")
     @apiSuccess (200) {list} account list
     @apiSuccessExample {PlainText} 
@@ -52,27 +53,19 @@ http://cccbd.top:8080/RESTHello
     @api {get} /account
     @apiParam {int} limit number limit 
     @Produces("application/json")
-    @apiSuccess (200) {PlainText} "register success"
-    @apiSuccess (403) {PlainText} "register fail"
-    @apiSuccessExample {json} Success-Response:
+    @apiSuccessExample (200) {json} Success-Response:
     [
         {
-            "name": "caoziyi",
-            "pass": "xixihaha_",
+            "name": "testname",
+            "pass": "testpass",
             "id": "1",
-            "gender": null
+            "gender": "male"
         },
         {
-            "name": "hhhh",
-            "pass": "345678",
+            "name": "chen",
+            "pass": "123456",
             "id": "2",
-            "gender": null
-        },
-        {
-            "name": "myname",
-            "pass": "mypass",
-            "id": "3",
-            "gender": null
+            "gender": "female"
         }
     ]
 

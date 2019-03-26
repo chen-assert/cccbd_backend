@@ -1,8 +1,10 @@
 package login_and_register;
 
-import sql.sqldata;
+import sql.sqlpool;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Cookie;
+import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import java.io.Serializable;
 import java.sql.Connection;
@@ -18,9 +20,10 @@ public class Login {
         String username;
         String message;
 
-        Message(){
+        Message() {
 
         }
+
         Message(int status, String type, String username, String message) {
             this.status = status;
             this.type = type;
@@ -74,10 +77,9 @@ public class Login {
     @Produces("application/json; charset=utf-8")
     public Response login(@QueryParam("username") String username, @QueryParam("password") String password) throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.jdbc.Driver");
-        //Connection conn = DriverManager.getConnection(url, sqldata.username, sqldata.password);
         Connection conn;
         try {
-            conn = new sqldata().getSingletons().getConnection();
+            conn = new sqlpool().getSingletons().getConnection();
         } catch (Exception e) {
             Message m = new Message();
             m.setMessage("sql pool fail!!");
@@ -85,13 +87,14 @@ public class Login {
             m.setType("fail");
             return Response.status(403).entity(m).build();
         }
-        PreparedStatement ps = conn.prepareStatement("select * from mytest where name=? and pass=?");
+        PreparedStatement ps = conn.prepareStatement("select * from User where name=? and pass=?");
         ps.setString(1, username);
         ps.setString(2, password);
         ResultSet resultSet = ps.executeQuery();
         if (resultSet.next()) {
+            NewCookie cookie = new NewCookie("name", "password");
             return Response.status(200).entity(
-                    new Message(200, "success", username, "Login success")).build();
+                    new Message(200, "success", username, "Login success")).cookie(cookie).build();
         } else return Response.status(403).entity(
                 new Message(403, "fail", username, "Login fail")).build();
     }
