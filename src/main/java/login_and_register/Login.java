@@ -3,10 +3,10 @@ package login_and_register;
 import sql.sqlpool;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import java.io.Serializable;
+import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -92,7 +92,23 @@ public class Login {
         ps.setString(2, password);
         ResultSet resultSet = ps.executeQuery();
         if (resultSet.next()) {
-            NewCookie cookie = new NewCookie("name", "password");
+            PreparedStatement ps2 = conn.prepareStatement("select token from User where name=? and pass=?");
+            ps2.setString(1, username);
+            ps2.setString(2, password);
+            ResultSet resultSet2 = ps2.executeQuery();
+            resultSet2.next();
+            String token = resultSet2.getString("token");
+            if (token == null) {
+                SecureRandom random = new SecureRandom();
+                byte bytes[] = new byte[30];
+                random.nextBytes(bytes);
+                token = bytes.toString();
+                PreparedStatement ps3 = conn.prepareStatement("update User set token=? where name=?");
+                ps3.setString(1, token);
+                ps3.setString(2, username);
+                ps3.executeUpdate();
+            }
+            NewCookie cookie = new NewCookie("token", token, "/", "localhost", "", 1000000, false);
             return Response.status(200).entity(
                     new Message(200, "success", username, "Login success")).cookie(cookie).build();
         } else return Response.status(403).entity(

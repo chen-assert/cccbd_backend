@@ -12,6 +12,7 @@ import org.junit.Test;
 import javax.ws.rs.core.Response;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
+import java.security.SecureRandom;
 import java.util.Random;
 
 import static sql.sqldata.sendgrid_api_key;
@@ -74,7 +75,10 @@ public class test1 {
     }
     @Test
     public void test2(){
-        Random random = new Random();
-        System.out.println(random.nextInt(10));
+        SecureRandom random = new SecureRandom();
+        byte bytes[] = new byte[20];
+        random.nextBytes(bytes);
+        String token = bytes.toString();
+        System.out.println(token);
     }
 }
