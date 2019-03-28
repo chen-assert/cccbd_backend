@@ -3,21 +3,26 @@ package data;
 import java.io.Serializable;
 
 
-public class Message implements Serializable {
+public class MyMessage implements Serializable {
     int status;
     String type;
-    String username;
     String message;
 
-    public Message() {
+    public MyMessage() {
 
     }
 
-    public Message(int status, String type, String username, String message) {
+    public MyMessage(int status, String type, String message) {
         this.status = status;
         this.type = type;
-        this.username = username;
         this.message = message;
+    }
+    public MyMessage(String type){
+        if(type.equals("sql fail")){
+            setMessage("sql pool fail!!");
+            setStatus(403);
+            setType("fail");
+        }
     }
 
     public int getStatus() {
@@ -44,11 +49,4 @@ public class Message implements Serializable {
         this.message = message;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 }

@@ -1,11 +1,11 @@
 package login_and_register;
 
+import data.MyMessage;
 import sql.sqlpool;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
-import java.io.Serializable;
 import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,56 +14,6 @@ import java.sql.SQLException;
 
 @Path("/login")
 public class Login {
-    class Message implements Serializable {
-        int status;
-        String type;
-        String username;
-        String message;
-
-        Message() {
-
-        }
-
-        Message(int status, String type, String username, String message) {
-            this.status = status;
-            this.type = type;
-            this.username = username;
-            this.message = message;
-        }
-
-        public int getStatus() {
-            return status;
-        }
-
-        public void setStatus(int status) {
-            this.status = status;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
-
-        public String getUsername() {
-            return username;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
-        }
-    }
-
     @GET
     @Path("/")
     @Produces("text/plain; charset=utf-8")
@@ -81,7 +31,7 @@ public class Login {
         try {
             conn = new sqlpool().getSingletons().getConnection();
         } catch (Exception e) {
-            Message m = new Message();
+            MyMessage m = new MyMessage();
             m.setMessage("sql pool fail!!");
             m.setStatus(403);
             m.setType("fail");
@@ -108,18 +58,19 @@ public class Login {
                 ps3.setString(2, username);
                 ps3.executeUpdate();
             }
-            //NewCookie cookie = new NewCookie("token", token, "/", "localhost", "", 1000000, false);
+            NewCookie cookie2 = new NewCookie("token", token, "/", "localhost", "", 1000000, false);
             NewCookie cookie = new NewCookie("token", token, "/", "cccbd.top", "", 1000000, false);
             return Response.status(200).entity(
-                    new Message(200, "success", username, "Login success")).cookie(cookie).build();
+                    new MyMessage(200, "success", "Login success")).cookie(cookie).cookie(cookie2).build();
         } else return Response.status(403).entity(
-                new Message(403, "fail", username, "Login fail")).build();
+                new MyMessage(403, "fail", "Login fail")).build();
     }
 
     @POST
     @Path("/send")
-    public Response login2(@FormParam("username") String name, @FormParam("password") String pass) throws SQLException, ClassNotFoundException {
-        return login(name, pass);
+    @Produces("application/json; charset=utf-8")
+    public Response login2(@FormParam("username") String username, @FormParam("password") String password) throws SQLException, ClassNotFoundException {
+        return login(username, password);
     }
 }
 

@@ -70,7 +70,7 @@ http://cccbd.top:8080/RESTHello
     ]
 
 #### get policies
-    @apiName get account list
+    @apiName get your policy list
     @api {get} /policy/my_policies 
     @Produces("application/json")
     @apiSuccessExample (200) {json} Success-Response:
@@ -84,6 +84,42 @@ http://cccbd.top:8080/RESTHello
             "policyNo": 2,
             "policyName": "testpolicy2",
             "content": "insure nothing!"
+        }
+    ]
+   
+  
+#### add claim
+    @apiName add a new claim
+    @api {get/post} /claim/new_claim 
+    @apiParam {Int} policyNo 
+    @apiParam {String} detail 
+    @Produces("application/json")
+    @apiSuccessExample (200) {json} Success-Response:
+    {
+        "status": 200,
+        "type": "success",
+        "message": "add cialm success"
+    }
+
+#### get claims
+    @apiName get your claim list
+    @api {get} /claim/my_claims 
+    @Produces("application/json")
+    @apiSuccessExample (200) {json} Success-Response:
+    [
+        {
+            "claimNo": 1,
+            "policyNo": 1,
+            "detail": "I lost myself",
+            "state": null,
+            "feedback": null
+        },
+        {
+            "claimNo": 2,
+            "policyNo": 1,
+            "detail": "I lost! I lost!",
+            "state": null,
+            "feedback": null
         }
     ]
 

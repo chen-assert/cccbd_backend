@@ -1,6 +1,6 @@
 package policy_and_claim;
 
-import data.Message;
+import data.MyMessage;
 import org.jboss.resteasy.annotations.jaxrs.CookieParam;
 import sql.sqlpool;
 
@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 
 @Path("/policy")
+@Produces("application/json; charset=utf-8")
 public class Policy {
     class po implements Serializable {
         int policyNo;
@@ -55,13 +56,12 @@ public class Policy {
 
     @GET
     @Path("/my_policies")
-    @Produces("application/json; charset=utf-8")
     public Response my_policies(@CookieParam("token") String token) throws SQLException, ClassNotFoundException {
         Connection conn;
         try {
             conn = new sqlpool().getSingletons().getConnection();
         } catch (Exception e) {
-            Message m = new Message();
+            MyMessage m = new MyMessage();
             m.setMessage("sql pool fail!!");
             m.setStatus(403);
             m.setType("fail");
@@ -79,7 +79,7 @@ public class Policy {
                 return Response.status(200).entity(pos).build();
             }
         }
-        Message m = new Message();
+        MyMessage m = new MyMessage();
         m.setMessage("Please first login in");
         m.setStatus(403);
         m.setType("fail");

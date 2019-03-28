@@ -3,6 +3,8 @@ package sql;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
 
+import javax.ws.rs.core.Response;
+
 import static sql.sqldata.*;
 public class sqlpool {
 
