@@ -108,7 +108,8 @@ public class Login {
                 ps3.setString(2, username);
                 ps3.executeUpdate();
             }
-            NewCookie cookie = new NewCookie("token", token, "/", "localhost", "", 1000000, false);
+            //NewCookie cookie = new NewCookie("token", token, "/", "localhost", "", 1000000, false);
+            NewCookie cookie = new NewCookie("token", token, "/", "cccbd.top", "", 1000000, false);
             return Response.status(200).entity(
                     new Message(200, "success", username, "Login success")).cookie(cookie).build();
         } else return Response.status(403).entity(

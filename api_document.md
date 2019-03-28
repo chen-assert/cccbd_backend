@@ -44,7 +44,7 @@ http://cccbd.top:8080/RESTHello
     @apiParam {String} gender
     @apiParam {String} email  
     @Produces("plain/text")
-    @apiSuccess (200) {list} account list
+    @apiSuccess (200) {PlainText}
     @apiSuccessExample {PlainText} 
     Register success, your username is: username
 
@@ -68,6 +68,25 @@ http://cccbd.top:8080/RESTHello
             "gender": "female"
         }
     ]
+
+#### get policies
+    @apiName get account list
+    @api {get} /policy/my_policies 
+    @Produces("application/json")
+    @apiSuccessExample (200) {json} Success-Response:
+    [
+        {
+            "policyNo": 1,
+            "policyName": "testpolicy",
+            "content": "insure everything!"
+        },
+        {
+            "policyNo": 2,
+            "policyName": "testpolicy2",
+            "content": "insure nothing!"
+        }
+    ]
+
 
 <br><br><br>
 
