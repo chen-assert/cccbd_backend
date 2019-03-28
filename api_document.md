@@ -98,7 +98,7 @@ http://cccbd.top:8080/RESTHello
     {
         "status": 200,
         "type": "success",
-        "message": "add cialm success"
+        "message": "add cliam success"
     }
 
 #### get claims

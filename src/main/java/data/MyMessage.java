@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 
 public class MyMessage implements Serializable {
-    int status;
-    String type;
-    String message;
+    private int status;
+    private String type;
+    private String message;
 
     public MyMessage() {
 

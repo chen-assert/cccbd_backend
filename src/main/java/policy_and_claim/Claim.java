@@ -41,7 +41,7 @@ public class Claim {
             ps2.setString(3, detail);
             int update = ps2.executeUpdate();
             MyMessage m = new MyMessage();
-            m.setMessage("add cialm success");
+            m.setMessage("add claim success");
             m.setStatus(200);
             m.setType("success");
             return Response.status(200).entity(m).build();
