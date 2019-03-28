@@ -125,6 +125,14 @@ http://cccbd.top:8080/RESTHello
 
 
 <br><br><br>
+####test user
+name:testuser   
+pass:123456 
+
+####test employee
+name:testemployee   
+pass:123456 
+
 
 ###### todo
 * change return value to json format

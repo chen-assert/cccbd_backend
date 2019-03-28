@@ -1,6 +1,8 @@
 package login_and_register;
 
 import data.MyMessage;
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
+import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import sql.sqlpool;
 
 import javax.ws.rs.*;
@@ -11,6 +13,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 @Path("/login")
 public class Login {
@@ -50,7 +55,7 @@ public class Login {
             String token = resultSet2.getString("token");
             if (token == null) {
                 SecureRandom random = new SecureRandom();
-                byte bytes[] = new byte[30];
+                byte[] bytes = new byte[30];
                 random.nextBytes(bytes);
                 token = bytes.toString();
                 PreparedStatement ps3 = conn.prepareStatement("update User set token=? where name=?");
@@ -70,7 +75,7 @@ public class Login {
     @Path("/send")
     @Produces("application/json; charset=utf-8")
     public Response login2(@FormParam("username") String username, @FormParam("password") String password) throws SQLException, ClassNotFoundException {
-        return login(username, password);
+        return login(username,password);
     }
 }
 
