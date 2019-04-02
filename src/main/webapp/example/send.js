@@ -9,7 +9,7 @@ $(document).ready(function () {
             type: 'POST',
             xhrFields: {
                 withCredentials: true
-                //这个很重要,否则token就设置不了
+                //这个很重要,否则无法设置cookie
             },
             complete: function (jqXHR) {
                 $("#result").html(jqXHR.responseText);

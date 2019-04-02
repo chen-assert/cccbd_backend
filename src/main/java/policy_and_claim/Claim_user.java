@@ -7,6 +7,7 @@ import sql.sqlpool;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,51 +16,8 @@ import java.util.LinkedList;
 
 @Path("/claim")
 @Produces("application/json; charset=utf-8")
-public class Claim {
-    @GET
-    @Path("/new_claim")
-    public Response new_claim(@CookieParam("token") String token, @QueryParam("policyNo") String policyNo,
-                              @QueryParam("detail") String detail) throws SQLException, ClassNotFoundException {
-        Connection conn;
-        try {
-            conn = new sqlpool().getSingletons().getConnection();
-        } catch (Exception e) {
-            MyMessage m = new MyMessage("sql fail");
-            return Response.status(403).entity(m).build();
-        }
-        while (true) {
-            if (token == null) break;
-            PreparedStatement ps = conn.prepareStatement("select * from Policy where uid = (select uid from User where token=?) and PolicyNo=?");
-            ps.setString(1, token);
-            ps.setString(2, policyNo);
-            ResultSet rs = ps.executeQuery();
-            if (!rs.next()) break;
-            int uid = rs.getInt("uid");
-            PreparedStatement ps2 = conn.prepareStatement("insert into Claim (uid,policyNo,detail) values (?,?,?)");
-            ps2.setInt(1, uid);
-            ps2.setString(2, policyNo);
-            ps2.setString(3, detail);
-            int update = ps2.executeUpdate();
-            MyMessage m = new MyMessage();
-            m.setMessage("add claim success");
-            m.setStatus(200);
-            m.setType("success");
-            return Response.status(200).entity(m).build();
-        }
-        MyMessage m = new MyMessage();
-        m.setMessage("policy number dismatch");
-        m.setStatus(403);
-        m.setType("fail");
-        return Response.status(403).entity(m).build();
-    }
-
-    @POST
-    @Path("/new_claim")
-    public Response new_claim2(@CookieParam("token") String token, @FormParam("policyNo") String policyNo,
-                               @FormParam("detail") String detail) throws SQLException, ClassNotFoundException {
-        return new_claim(token, policyNo, detail);
-    }
-    class Cl implements Serializable {
+public class Claim_user {
+    static class Cl implements Serializable {
         int claimNo;
         int policyNo;
         String detail;
@@ -115,6 +73,55 @@ public class Claim {
             this.feedback = feedback;
         }
     }
+
+    @GET
+    @Path("/new_claim")
+    public Response new_claim(@CookieParam("token") String token, @QueryParam("policyNo") String policyNo,
+                              @QueryParam("detail") String detail) throws SQLException, ClassNotFoundException, UnsupportedEncodingException {
+        detail = new String(detail.getBytes("iso-8859-1"), "utf-8");
+        //if(1==1)return Response.status(403).entity(new String(detail.getBytes("iso-8859-1"),"utf-8")).build();
+        Connection conn;
+        try {
+            conn = new sqlpool().getSingletons().getConnection();
+        } catch (Exception e) {
+            MyMessage m = new MyMessage("sql fail");
+            return Response.status(403).entity(m).build();
+        }
+        while (true) {
+            if (token == null) break;
+            PreparedStatement ps = conn.prepareStatement("select * from Policy where uid = (select uid from User where token=?) and PolicyNo=?");
+            ps.setString(1, token);
+            ps.setString(2, policyNo);
+            ResultSet rs = ps.executeQuery();
+            if (!rs.next()) break;
+            int uid = rs.getInt("uid");
+            PreparedStatement ps2 = conn.prepareStatement("insert into Claim (uid,policyNo,detail) values (?,?,?)");
+            ps2.setInt(1, uid);
+            ps2.setString(2, policyNo);
+            //ps2.setString(3, "测试");
+            ps2.setString(3, detail);
+            int update = ps2.executeUpdate();
+            MyMessage m = new MyMessage();
+            m.setMessage("add claim success");
+            m.setStatus(200);
+            m.setType("success");
+            return Response.status(200).entity(m).build();
+        }
+        MyMessage m = new MyMessage();
+        m.setMessage("policy number dismatch");
+        m.setStatus(403);
+        m.setType("fail");
+        return Response.status(403).entity(m).build();
+    }
+
+    @POST
+    @Consumes("application/x-www-form-urlencoded; charset=UTF-8")
+    @Path("/new_claim")
+    public Response new_claim2(@CookieParam("token") String token, @FormParam("policyNo") String policyNo,
+                               @FormParam("detail") String detail) throws SQLException, ClassNotFoundException, UnsupportedEncodingException {
+        return new_claim(token, policyNo, detail);
+    }
+
 
     @GET
     @Path("/my_claims")

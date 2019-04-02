@@ -41,7 +41,7 @@ public class Register {
             ps.setString(4, email);
             int execute = ps.executeUpdate();
             if (execute != 0) {
-                return Response.status(200).entity("Register success, your username is:" + username).build();
+                return Response.status(200).entity("Register successfully, your username is:" + username).build();
             } else {
                 return Response.status(403).entity("Register file,something went wrong, your username is:" + username).build();
             }

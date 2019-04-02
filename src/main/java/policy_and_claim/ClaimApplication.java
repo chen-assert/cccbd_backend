@@ -1,7 +1,6 @@
 package policy_and_claim;
 
 import org.jboss.resteasy.plugins.interceptors.CorsFilter;
-import sql.sqlpool;
 
 import javax.ws.rs.core.Application;
 import java.util.HashSet;
@@ -15,7 +14,8 @@ public class ClaimApplication extends Application {
         corsFilter.getAllowedOrigins().add("*");
         corsFilter.setAllowedMethods("OPTIONS, GET, POST, DELETE, PUT, PATCH");
         singletons.add(corsFilter);
-        singletons.add(new Claim());
+        singletons.add(new Claim_user());
+        singletons.add(new Claim_employee());
     }
 
     @Override

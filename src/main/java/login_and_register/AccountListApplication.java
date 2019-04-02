@@ -14,9 +14,7 @@ public class AccountListApplication extends Application {
         corsFilter.getAllowedOrigins().add("*");
         corsFilter.setAllowedMethods("OPTIONS, GET, POST, DELETE, PUT, PATCH");
         singletons.add(corsFilter);
-        // Register our hello service
         singletons.add(new AccountList());
-
 
 
     }

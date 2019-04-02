@@ -66,7 +66,7 @@ public class Login {
             NewCookie cookie2 = new NewCookie("token", token, "/", "localhost", "", 1000000, false);
             NewCookie cookie = new NewCookie("token", token, "/", "cccbd.top", "", 1000000, false);
             return Response.status(200).entity(
-                    new MyMessage(200, "success", "Login success")).cookie(cookie).cookie(cookie2).build();
+                    new MyMessage(200, "success", "Login successfully")).cookie(cookie).cookie(cookie2).build();
         } else return Response.status(403).entity(
                 new MyMessage(403, "fail", "Login fail")).build();
     }
@@ -78,4 +78,3 @@ public class Login {
         return login(username,password);
     }
 }
-

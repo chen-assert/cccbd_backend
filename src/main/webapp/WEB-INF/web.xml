@@ -55,7 +55,7 @@
         </init-param>
     </servlet>
     <servlet>
-        <servlet-name>mail</servlet-name>
+        <servlet-name>verifi_code</servlet-name>
         <servlet-class>
             org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher
         </servlet-class>
@@ -105,8 +105,8 @@
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>mail</servlet-name>
-        <url-pattern>/mail/*</url-pattern>
+        <servlet-name>verifi_code</servlet-name>
+        <url-pattern>/verify_code/*</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>

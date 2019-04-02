@@ -75,10 +75,7 @@ public class test1 {
     }
     @Test
     public void test2(){
-        SecureRandom random = new SecureRandom();
-        byte bytes[] = new byte[20];
-        random.nextBytes(bytes);
-        String token = bytes.toString();
-        System.out.println(token);
+        String w="啊啊啊";
+        System.out.println(w);
     }
 }
