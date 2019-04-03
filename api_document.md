@@ -142,3 +142,23 @@ pass:123456
 * change framework to spring boot...?
 * 邮件发送 (完成)
 * 改写web.xml为autoscan模式
+
+ppt：
+10min 边说边点 -1
+9min 做过：.lostluggage 完成：
+后端：
+1. what：database, 域名，服务器，API接口，
+2. how：前端：what：界面s，bootstrap，下载数据到表格
+前后端连接：详细。
+
+Customer：
+登录—> 用ajax发送登录请求 —> 返回状态码 （set userCookie）—> customer主页面（个人信息还没完成） —> 丢失行李可以点 —> Claim界面 —> 输入信息，以post形式上传到链接 —> 成功
+•	process界面 —> 显示所有丢失行李的claim
+•	policy界面 —> 显示所有已购买的policy
+
+
+employee：
+登录 —> 用ajax发送登录请求 —> 返回状态码 （set userCookie）—> dashboard （get未完成及完成的表单有多少个）—> Unprocessed get所有state为null的claim，点击链接得到policyNo，跳转到processing界面，发送policyNo到后端，后端把该保单所有信息发送到processing界面，点击按钮设置state（后端更新state） —>  跳转到Unprocessed界面，claim-1
+
+
+显示旧的信息+ 新的content

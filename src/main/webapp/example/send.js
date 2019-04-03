@@ -13,6 +13,12 @@ $(document).ready(function () {
             },
             complete: function (jqXHR) {
                 $("#result").html(jqXHR.responseText);
+            },
+            success:function () {
+
+            },
+            fail:function () {
+
             }
         });
     });
