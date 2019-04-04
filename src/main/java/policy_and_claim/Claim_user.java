@@ -79,7 +79,6 @@ public class Claim_user {
     public Response new_claim(@CookieParam("token") String token, @QueryParam("policyNo") String policyNo,
                               @QueryParam("detail") String detail) throws SQLException, ClassNotFoundException, UnsupportedEncodingException {
         detail = new String(detail.getBytes("iso-8859-1"), "utf-8");
-        //if(1==1)return Response.status(403).entity(new String(detail.getBytes("iso-8859-1"),"utf-8")).build();
         Connection conn;
         try {
             conn = new sqlpool().getSingletons().getConnection();
@@ -99,7 +98,7 @@ public class Claim_user {
             ps2.setInt(1, uid);
             ps2.setString(2, policyNo);
             ps2.setString(3, detail);
-            ps2.setString(4,"wait");
+            ps2.setString(4,"waiting");
             int update = ps2.executeUpdate();
             MyMessage m = new MyMessage();
             m.setMessage("add claim success");
