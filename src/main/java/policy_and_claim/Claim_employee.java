@@ -34,7 +34,8 @@ public class Claim_employee {
         LinkedList<Claim_user.Cl> pos = new LinkedList<Claim_user.Cl>();
         do {
             Claim_user.Cl cl = new Claim_user.Cl(res.getInt("claimNo"), res.getInt("policyNo"),
-                    res.getString("detail"), res.getString("state"), res.getString("feedback"));
+                    res.getString("detail"), res.getString("state"),
+                    res.getString("feedback"));
             pos.addLast(cl);
         } while (res.next());
         return Response.status(200).entity(pos).build();

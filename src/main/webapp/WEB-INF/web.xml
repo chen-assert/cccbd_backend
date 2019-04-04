@@ -84,7 +84,16 @@
             <param-value>policy_and_claim.ClaimApplication</param-value>
         </init-param>
     </servlet>
-
+    <servlet>
+        <servlet-name>process</servlet-name>
+        <servlet-class>
+            org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher
+        </servlet-class>
+        <init-param>
+            <param-name>javax.ws.rs.Application</param-name>
+            <param-value>manage.ProcessApplication</param-value>
+        </init-param>
+    </servlet>
     <servlet-mapping>
         <servlet-name>resteasy-servlet</servlet-name>
         <url-pattern>/hello/*</url-pattern>
@@ -119,6 +128,10 @@
         <url-pattern>/claim/*</url-pattern>
     </servlet-mapping>
 
+    <servlet-mapping>
+        <servlet-name>process</servlet-name>
+        <url-pattern>/process/*</url-pattern>
+    </servlet-mapping>
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>

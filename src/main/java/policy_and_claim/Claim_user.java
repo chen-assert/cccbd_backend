@@ -140,8 +140,9 @@ public class Claim_user {
             if (res.next()) {
                 LinkedList<Cl> pos = new LinkedList<Cl>();
                 do {
-                    Cl cl = new Cl(res.getInt("claimNo"), res.getInt("policyNo"), res.getString("detail"),
-                            res.getString("state"), res.getString("feedback"));
+                    Cl cl = new Cl(res.getInt("claimNo"), res.getInt("policyNo"),
+                            res.getString("detail"), res.getString("state"),
+                            res.getString("feedback"));
                     pos.addLast(cl);
                 } while (res.next());
                 return Response.status(200).entity(pos).build();
