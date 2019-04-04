@@ -95,11 +95,11 @@ public class Claim_user {
             ResultSet rs = ps.executeQuery();
             if (!rs.next()) break;
             int uid = rs.getInt("uid");
-            PreparedStatement ps2 = conn.prepareStatement("insert into Claim (uid,policyNo,detail) values (?,?,?)");
+            PreparedStatement ps2 = conn.prepareStatement("insert into Claim (uid,policyNo,detail,state) values (?,?,?,?)");
             ps2.setInt(1, uid);
             ps2.setString(2, policyNo);
-            //ps2.setString(3, "测试");
             ps2.setString(3, detail);
+            ps2.setString(4,"wait");
             int update = ps2.executeUpdate();
             MyMessage m = new MyMessage();
             m.setMessage("add claim success");

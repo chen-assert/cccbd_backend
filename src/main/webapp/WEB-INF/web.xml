@@ -85,7 +85,7 @@
         </init-param>
     </servlet>
     <servlet>
-        <servlet-name>process</servlet-name>
+        <servlet-name>manage</servlet-name>
         <servlet-class>
             org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher
         </servlet-class>
@@ -129,8 +129,8 @@
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>process</servlet-name>
-        <url-pattern>/process/*</url-pattern>
+        <servlet-name>manage</servlet-name>
+        <url-pattern>/manage/*</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>

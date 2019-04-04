@@ -28,7 +28,7 @@ public class Claim_employee {
             MyMessage m = new MyMessage("sql fail");
             return Response.status(403).entity(m).build();
         }
-        PreparedStatement ps = conn.prepareStatement("select * from Claim where state is null");
+        PreparedStatement ps = conn.prepareStatement("select * from Claim where state='waiting'");
         //ps.setString(1, token);
         ResultSet res = ps.executeQuery();
         LinkedList<Claim_user.Cl> pos = new LinkedList<Claim_user.Cl>();

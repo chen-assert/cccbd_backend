@@ -17,26 +17,27 @@ $(document).ready(function () {
             }
         });
 		*/
-		//上下两段的效果一样
-		//但是上面部分需要jQuery
-		let mydata = new FormData();
+        //上下两段的效果一样
+        //但是上面部分需要jQuery
+        let mydata = new FormData();
         mydata.append("username", $("#username").val());
         mydata.append("password", $("#password").val());
-		var xhr = new XMLHttpRequest();
-		xhr.open('POST', 'http://cccbd.top:8080/RESTHello/login/send', true);
-		xhr.withCredentials = true;	//!!
-		xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-		xhr.onload = function () {
-			console.log(this.responseText);
-			$("#result").html(this.responseText);
-		};
-		xhr.send(urlencodeFormData(mydata));
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'http://cccbd.top:8080/RESTHello/login/send', true);
+        xhr.withCredentials = true;	//!!
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.onload = function () {
+            console.log(this.responseText);
+            $("#result").html(this.responseText);
+        };
+        xhr.send(urlencodeFormData(mydata));
     });
 });
-function urlencodeFormData(fd){
+
+function urlencodeFormData(fd) {
     var params = new URLSearchParams();
-    for(var pair of fd.entries()){
-        typeof pair[1]=='string' && params.append(pair[0], pair[1]);
+    for (var pair of fd.entries()) {
+        typeof pair[1] == 'string' && params.append(pair[0], pair[1]);
     }
     return params.toString();
 }

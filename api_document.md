@@ -1,15 +1,6 @@
 Seems need to write a API document...<br>
 
 http://cccbd.top:8080/RESTHello
-#### testapi
-    @apiName testapi
-    @api {get}   /hello/{id}
-    @apiParam {String} id id 
-    @Produces("text/plain")
-    @apiSuccess (200) {PlainText}
-    @apiSuccessExample {PlainText} 
-    hello id
-
 #### login
     @apiName login
     @api {get/post}   /login/send/              user login
@@ -45,7 +36,7 @@ http://cccbd.top:8080/RESTHello
     @apiParam {String} password 
     @apiParam {String} gender
     @apiParam {String} email  
-    @Produces("plain/text")
+    @Produces("text/plain")
     @apiSuccess (200) {PlainText}
     @apiSuccessExample {PlainText} 
     Register success, your username is: username
@@ -126,8 +117,21 @@ http://cccbd.top:8080/RESTHello
     ]
 
 #### send verify code
-    @apiName get verify code
+    @apiName send verify code
     @api {get}   /verify_code 
+    
+#### process claim
+    @apiName process claim
+
+#### get claim number
+    @apiName get claim number
+    @api {get}  /manage/number
+    @Produces("application/json")
+    @apiSuccessExample (200) {json} Success-Response:
+    {
+        "processed": 9,
+        "unprocessed": 1
+    }
 
 <br><br><br>
 ####test user
@@ -143,8 +147,10 @@ pass:123456
 * test auto generate api document (fail)
 * change framework to spring boot (give up)
 * 邮件发送 (success)
-* 改写web.xml为autoscan模式(fail)
-* 显示旧的信息+ 新的content
+* 改写web.xml为autoscan模式 (fail)
+* 显示旧的信息+新的content
+* 对所有网页添加token验证 (...好麻烦啊,spring真香)
+* 单元测试...咋写啊!
 
 ppt：
 10min 边说边点 -1
@@ -155,13 +161,17 @@ ppt：
 前后端连接：详细。
 
 Customer：
-登录—> 用ajax发送登录请求 —> 返回状态码 （set userCookie）—> customer主页面（个人信息还没完成） —> 丢失行李可以点 —> Claim界面 —> 输入信息，以post形式上传到链接 —> 成功
-•	process界面 —> 显示所有丢失行李的claim
-•	policy界面 —> 显示所有已购买的policy
+登录—> 用ajax发送登录请求 —> 返回状态码 （set userCookie）—> customer主页面（个人信息还没完成） —>
+丢失行李可以点 —> Claim界面 —> 输入信息，以post形式上传到链接 —> 成功
+•process界面 —> 显示所有丢失行李的claim
+•policy界面 —> 显示所有已购买的policy
 
 
 employee：
-登录 —> 用ajax发送登录请求 —> 返回状态码 （set userCookie）—> dashboard （get未完成及完成的表单有多少个）—> Unprocessed get所有state为null的claim，点击链接得到policyNo，跳转到processing界面，发送policyNo到后端，后端把该保单所有信息发送到processing界面，点击按钮设置state（后端更新state） —>  跳转到Unprocessed界面，claim-1
+登录 —> 用ajax发送登录请求 —> 返回状态码 （set userCookie）—> dashboard （get未完成及完成的表单有多少个）—>
+Unprocessed get所有state为null的claim，点击链接得到policyNo，跳转到processing界面，
+发送policyNo到后端，后端把该保单所有信息发送到processing界面，点击按钮设置state（后端更新state） —>
+跳转到Unprocessed界面，claim-1
 
 
 
