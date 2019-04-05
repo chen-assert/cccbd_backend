@@ -68,15 +68,18 @@ http://cccbd.top:8080/RESTHello
 #### add claim
     @apiName add a new claim
     @apiPermission  need user_token
-    @api {get/post}   /claim/new_claim 
+    @api {post}   /claim/new_claim 
     @apiParam {Int} policyNo 
     @apiParam {String} detail 
+    @apiParam {String} name
+    @apiParam {Date} claim_date
+    @apiParam {Date} loss_date
     @Produces("application/json")
     @apiSuccessExample (200) {json} Success-Response:
     {
         "status": 200,
         "type": "success",
-        "message": "add cliam success"
+        "message": "Add cliam successfully"
     }
 
 #### get claims
