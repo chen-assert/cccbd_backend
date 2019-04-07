@@ -1,7 +1,8 @@
 package policy_and_claim;
 
 import data.MyMessage;
-import org.jboss.resteasy.annotations.jaxrs.*;
+import org.jboss.resteasy.annotations.jaxrs.CookieParam;
+import org.jboss.resteasy.annotations.jaxrs.FormParam;
 import sql.sqlpool;
 
 import javax.ws.rs.GET;
@@ -113,7 +114,8 @@ public class Claim_user {
         }
         int uid = rs.getInt("uid");
         PreparedStatement ps2 = conn.prepareStatement
-                ("insert into Claim (uid,policyNo,detail,state,real_name,loss_date,claim_date) values (?,?,?,?,?,?,?)");
+                ("insert into Claim (uid,policyNo,detail,state,real_name,loss_date,claim_date) " +
+                        "values (?,?,?,?,?,?,?)");
         ps2.setInt(1, uid);
         ps2.setString(2, policyNo);
         ps2.setString(3, detail);
