@@ -2,7 +2,7 @@ Seems need to write a API document...<br>
 
 http://cccbd.top:8080/RESTHello
 
-
+## Register & Login
 #### login
     @apiName login
     @api {get/post}   /login/send/              user login
@@ -43,7 +43,7 @@ http://cccbd.top:8080/RESTHello
     @apiSuccessExample {PlainText} 
     Register success, your username is: username
 
-
+## Policy
 
 #### get policies
     @apiName get your policy list
@@ -64,8 +64,9 @@ http://cccbd.top:8080/RESTHello
         }
     ]
    
-  
-#### add claim
+## Claim 
+
+#### add a new claim
     @apiName add a new claim
     @apiPermission  need user_token
     @api {post}   /claim/new_claim 
@@ -105,8 +106,8 @@ http://cccbd.top:8080/RESTHello
         }
     ]
 
-#### get claim detail
-    @apiName get your claim list
+#### get a claim detail
+    @apiName get a claim detail
     @apiPermission  need user_token or employee_token
     @api {get}   /claim/detail 
     @apiParam {Int} ClaimNo 
@@ -156,7 +157,7 @@ http://cccbd.top:8080/RESTHello
     @apiSuccessExample (200) {PlainText} "success"
     
 
-#### get claim number
+#### get rest claim quantity
     @apiName get claim number
     @api {get}  /manage/number
     @Produces("application/json")
