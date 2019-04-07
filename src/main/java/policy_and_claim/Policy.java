@@ -79,16 +79,6 @@ public class Policy {
                 return Response.status(200).entity(pos).build();
             }
         }
-//        PreparedStatement ps = conn.prepareStatement("select * from Policy");
-//        //ps.setString(1, token);
-//        ResultSet res = ps.executeQuery();
-//        if (res.next()) {
-//            LinkedList<po> pos = new LinkedList<po>();
-//            do {
-//                pos.addLast(new po(res.getInt("policyNo"), res.getString("policyName"), res.getString("content")));
-//            } while (res.next());
-//            return Response.status(200).entity(pos).build();
-//        }
         MyMessage m = new MyMessage();
         m.setMessage("Please first login in");
         m.setStatus(403);

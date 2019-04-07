@@ -71,7 +71,7 @@ http://cccbd.top:8080/RESTHello
     @api {post}   /claim/new_claim 
     @apiParam {Int} policyNo 
     @apiParam {String} detail 
-    @apiParam {String} name
+    @apiParam {String} real_name
     @apiParam {Date} claim_date
     @apiParam {Date} loss_date
     @Produces("application/json")
@@ -105,9 +105,26 @@ http://cccbd.top:8080/RESTHello
         }
     ]
 
+#### get claim detail
+    @apiName get your claim list
+    @apiPermission  need user_token or employee_token
+    @api {get}   /claim/detail 
+    @apiParam {Int} ClaimNo 
+    @Produces("application/json")
+    @apiSuccessExample (200) {json} Success-Response:
+    {
+        "policyNo": "2",
+        "detail": "detail blablabla",
+        "real_name": "chen",
+        "claim_date": "2019-04-02",
+        "loss_date": "2019-04-01",
+        "ClaimNo": "34",
+        "feedback": null
+    }
+
 #### waiting/processed claims
     @apiName get waiting/processed claims
-    @apiPermission  need empolyee_token
+    @apiPermission  need employee_token
     @api {get}  /claim/waiting_claims       waiting(unprocessed) claims
     @api {get}  /claim/processed_claims           processed claim
     @Produces("application/json")

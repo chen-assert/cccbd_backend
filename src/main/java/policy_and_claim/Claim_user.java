@@ -1,14 +1,11 @@
 package policy_and_claim;
 
 import data.MyMessage;
+import org.jboss.resteasy.annotations.Form;
 import org.jboss.resteasy.annotations.jaxrs.CookieParam;
-import org.jboss.resteasy.annotations.jaxrs.FormParam;
 import sql.sqlpool;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
@@ -78,15 +75,14 @@ public class Claim_user {
         }
     }
 
+
     @POST
     //@Consumes("application/x-www-form-urlencoded; charset=UTF-8")
     @Path("/new_claim")
-    public Response new_claim(@CookieParam("token") String token, @FormParam("policyNo") String policyNo,
-                              @FormParam("detail") String detail, @FormParam("name") String name,
-                              @FormParam("claim_date") String claim_date, @FormParam("loss_date") String loss_date
+    public Response new_claim(@CookieParam("token") String token, @Form Claim claim
     ) throws SQLException, ClassNotFoundException, UnsupportedEncodingException {
-        detail = new String(detail.getBytes("iso-8859-1"), "utf-8");
-        name = new String(name.getBytes("iso-8859-1"), "utf-8");
+        claim.detail = new String(claim.detail.getBytes("iso-8859-1"), "utf-8");
+        claim.real_name = new String(claim.real_name.getBytes("iso-8859-1"), "utf-8");
         Connection conn;
         try {
             conn = new sqlpool().getSingletons().getConnection();
@@ -103,7 +99,7 @@ public class Claim_user {
         }
         PreparedStatement ps = conn.prepareStatement("select * from Policy where uid = (select uid from User where token=?) and PolicyNo=?");
         ps.setString(1, token);
-        ps.setString(2, policyNo);
+        ps.setString(2, claim.policyNo);
         ResultSet rs = ps.executeQuery();
         if (!rs.next()) {
             MyMessage m = new MyMessage();
@@ -117,12 +113,12 @@ public class Claim_user {
                 ("insert into Claim (uid,policyNo,detail,state,real_name,loss_date,claim_date) " +
                         "values (?,?,?,?,?,?,?)");
         ps2.setInt(1, uid);
-        ps2.setString(2, policyNo);
-        ps2.setString(3, detail);
+        ps2.setString(2, claim.policyNo);
+        ps2.setString(3, claim.detail);
         ps2.setString(4, "waiting");
-        ps2.setString(5, name);
-        ps2.setString(6, loss_date);
-        ps2.setString(7, claim_date);
+        ps2.setString(5, claim.real_name);
+        ps2.setString(6, claim.loss_date);
+        ps2.setString(7, claim.claim_date);
 
         int update = ps2.executeUpdate();
         MyMessage m = new MyMessage();
@@ -166,4 +162,44 @@ public class Claim_user {
         return Response.status(403).entity(m).build();
     }
 
+    @GET
+    @Path("/detail")
+    public Response claim_detail(@CookieParam("token") String token, @CookieParam("token_employee") String token_employee,
+                                 @QueryParam("claimNo") String claimNo) throws SQLException, ClassNotFoundException {
+        Connection conn;
+        try {
+            conn = new sqlpool().getSingletons().getConnection();
+        } catch (Exception e) {
+            MyMessage m = new MyMessage("sql fail");
+            return Response.status(403).entity(m).build();
+        }
+        //todo: authentication
+        if (1 == 1) {
+            PreparedStatement ps = conn.prepareStatement("select * from Claim where claimNo = ?");
+            ps.setString(1, claimNo);
+            ResultSet res = ps.executeQuery();
+            if (res.next()) {
+                Claim claim = new Claim();
+                claim.detail = res.getString("detail");
+                claim.policyNo = res.getString("policyNo");
+                claim.real_name = res.getString("real_name");
+                claim.claim_date = res.getString("claim_date");
+                claim.loss_date = res.getString("loss_date");
+                claim.ClaimNo = res.getString("ClaimNo");
+                claim.feedback = res.getString("feedback");
+                return Response.status(200).entity(claim).build();
+            } else {
+                MyMessage m = new MyMessage();
+                m.setMessage("No such a claim");
+                m.setStatus(403);
+                m.setType("fail");
+                return Response.status(403).entity(m).build();
+            }
+        }
+        MyMessage m = new MyMessage();
+        m.setMessage("Please first login in");
+        m.setStatus(403);
+        m.setType("fail");
+        return Response.status(403).entity(m).build();
+    }
 }
