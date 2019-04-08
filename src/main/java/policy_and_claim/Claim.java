@@ -5,6 +5,7 @@ import org.jboss.resteasy.annotations.jaxrs.FormParam;
 import java.io.Serializable;
 
 public class Claim implements Serializable {
+    public String ClaimNo;
     @FormParam("policyNo")
     public String policyNo;
     @FormParam("detail")
@@ -15,7 +16,6 @@ public class Claim implements Serializable {
     public String claim_date;
     @FormParam("loss_date")
     public String loss_date;
-    public String ClaimNo;
     public String feedback;
     public Claim() {
 

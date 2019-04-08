@@ -114,12 +114,12 @@ http://cccbd.top:8080/RESTHello
     @Produces("application/json")
     @apiSuccessExample (200) {json} Success-Response:
     {
+        "ClaimNo": "34",
         "policyNo": "2",
         "detail": "detail blablabla",
         "real_name": "chen",
         "claim_date": "2019-04-02",
         "loss_date": "2019-04-01",
-        "ClaimNo": "34",
         "feedback": null
     }
 
@@ -240,16 +240,21 @@ pass:123456
 * 单元测试...咋写啊!
 * 参考resteasy最佳实践
 
-ppt：
-后端:
-what:database, 域名，服务器，API接口，
+presentation-flow
+ppt:
+后端:2min
+what:database, 域名，服务器，RESTful API, micro server
+how:Digital Ocean cloud server with tomcat
+benefit:High Scalability and Flexibility
+前端:2min
+what:界面，bootstrap，下载数据到表格
 how:
-前端:
-what:界面s，bootstrap，下载数据到表格
-how:
-前后端连接：详细
-实际操作展示
-展望未来计划
+benefit:use bootstrap, easy to cross platform/browser, and adapt mobile platform
+前后端连接:详细1min
+how to pack(打包):1min
+实际操作展示2min
+展望未来计划1min
+ask:question 1 min
 
 Customer：
 登录—> 用ajax发送登录请求 —> 返回状态码 （set userCookie）—> customer主页面（个人信息还没完成） —>
