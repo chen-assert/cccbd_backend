@@ -1,5 +1,6 @@
 package data;
 
+import javax.ws.rs.core.Response;
 import java.io.Serializable;
 
 
@@ -19,7 +20,12 @@ public class MyMessage implements Serializable {
     }
     public MyMessage(String type){
         if(type.equals("sql fail")){
-            setMessage("sql pool fail!!");
+            setMessage("Sql pool fail!!");
+            setStatus(403);
+            setType("fail");
+        }
+        if(type.equals("need login")){
+            setMessage("Please first login!");
             setStatus(403);
             setType("fail");
         }
@@ -49,4 +55,7 @@ public class MyMessage implements Serializable {
         this.message = message;
     }
 
+    public Response getResponse(){
+        return Response.status(403).entity(this).build();
+    }
 }

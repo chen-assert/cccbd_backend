@@ -23,16 +23,8 @@ public class Claim_user {
         int policyNo;
         String detail;
         String state;
-        String feedback;
-
-        public Cl(int claimNo, int policyNo, String detail, String state, String feedback) {
-            this.claimNo = claimNo;
-            this.policyNo = policyNo;
-            this.detail = detail;
-            this.state = state;
-            this.feedback = feedback;
-        }
-
+        String loss_date;
+        String claim_date;
 
         public int getClaimNo() {
             return claimNo;
@@ -66,23 +58,40 @@ public class Claim_user {
             this.state = state;
         }
 
-        public String getFeedback() {
-            return feedback;
+        public String getLoss_date() {
+            return loss_date;
         }
 
-        public void setFeedback(String feedback) {
-            this.feedback = feedback;
+        public void setLoss_date(String loss_date) {
+            this.loss_date = loss_date;
+        }
+
+        public String getClaim_date() {
+            return claim_date;
+        }
+
+        public void setClaim_date(String claim_date) {
+            this.claim_date = claim_date;
+        }
+
+        public Cl(int claimNo, int policyNo, String detail, String state, String loss_date, String claim_date) {
+            this.claimNo = claimNo;
+            this.policyNo = policyNo;
+            this.detail = detail;
+            this.state = state;
+            this.loss_date = loss_date;
+            this.claim_date = claim_date;
         }
     }
 
 
     @POST
-    //@Consumes("application/x-www-form-urlencoded; charset=UTF-8")
+    @Consumes("application/x-www-form-urlencoded; charset=UTF-8")
     @Path("/new_claim")
     public Response new_claim(@CookieParam("token") String token, @Form Claim claim
     ) throws SQLException, ClassNotFoundException, UnsupportedEncodingException {
-        claim.detail = new String(claim.detail.getBytes("iso-8859-1"), "utf-8");
-        claim.real_name = new String(claim.real_name.getBytes("iso-8859-1"), "utf-8");
+        //claim.detail = new String(claim.detail.getBytes("iso-8859-1"), "utf-8");
+        //claim.real_name = new String(claim.real_name.getBytes("iso-8859-1"), "utf-8");
         Connection conn;
         try {
             conn = new sqlpool().getSingletons().getConnection();
@@ -149,7 +158,7 @@ public class Claim_user {
                 do {
                     Cl cl = new Cl(res.getInt("claimNo"), res.getInt("policyNo"),
                             res.getString("detail"), res.getString("state"),
-                            res.getString("feedback"));
+                            res.getString("loss_date"),res.getString("claim_date"));
                     pos.addLast(cl);
                 } while (res.next());
                 return Response.status(200).entity(pos).build();

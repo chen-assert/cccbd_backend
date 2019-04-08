@@ -126,8 +126,32 @@ http://cccbd.top:8080/RESTHello
 #### waiting/processed claims
     @apiName get waiting/processed claims
     @apiPermission  need employee_token
-    @api {get}  /claim/waiting_claims       waiting(unprocessed) claims
-    @api {get}  /claim/processed_claims           processed claim
+    @api {get}  /claim/waiting_claims           waiting(unprocessed) claims
+    @api {get}  /claim/processed_claims         processed claim
+    @Produces("application/json")
+    @apiSuccessExample (200) {json} Success-Response:
+    [
+        {
+            "claimNo": 2,
+            "policyNo": 1,
+            "detail": "I lost! I lost!",
+            "state": "waiting",
+            "feedback": null
+        },
+        {
+            "claimNo": 3,
+            "policyNo": 2,
+            "detail": "ahhhhhh",
+            "state": "waiting",
+            "feedback": null
+        }
+    ]
+    
+#### waiting/processed claims(for single user)
+    @apiName get waiting/processed claims
+    @apiPermission  need user_token
+    @api {get}  /claim/waiting_claims_user          waiting(unprocessed) claims
+    @api {get}  /claim/processed_claims_user        processed claim
     @Produces("application/json")
     @apiSuccessExample (200) {json} Success-Response:
     [
@@ -153,6 +177,7 @@ http://cccbd.top:8080/RESTHello
     @api {post}     /manage/number
     @Produces("text/plain")
     @apiParam {String} state        要修改为的状态
+    @apiParam {String} feedback     反馈
     @apiParam {String} claimNo      要修改的claimNo
     @apiSuccessExample (200) {PlainText} "success"
     

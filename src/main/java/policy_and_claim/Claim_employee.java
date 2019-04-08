@@ -1,5 +1,6 @@
 package policy_and_claim;
 
+import com.fasterxml.jackson.databind.JsonSerializer;
 import data.MyMessage;
 import org.jboss.resteasy.annotations.jaxrs.CookieParam;
 import sql.sqlpool;
@@ -20,7 +21,7 @@ import java.util.LinkedList;
 public class Claim_employee {
     @GET
     @Path("/waiting_claims")
-    public Response waiting_claim(@CookieParam("token_employee") String token) throws SQLException, ClassNotFoundException {
+    public Response waiting_claim(@CookieParam("token_employee") String token_employee) throws SQLException, ClassNotFoundException {
         Connection conn;
         try {
             conn = new sqlpool().getSingletons().getConnection();
@@ -28,14 +29,15 @@ public class Claim_employee {
             MyMessage m = new MyMessage("sql fail");
             return Response.status(403).entity(m).build();
         }
+        //if(token_employee== null) return new MyMessage("need login").getResponse();
         PreparedStatement ps = conn.prepareStatement("select * from Claim where state='waiting'");
-        //ps.setString(1, token);
+        //ps.setString(1, token_employee);
         ResultSet res = ps.executeQuery();
         LinkedList<Claim_user.Cl> pos = new LinkedList<Claim_user.Cl>();
         while (res.next()) {
             Claim_user.Cl cl = new Claim_user.Cl(res.getInt("claimNo"), res.getInt("policyNo"),
                     res.getString("detail"), res.getString("state"),
-                    res.getString("feedback"));
+                    res.getString("loss_date"), res.getString("claim_date"));
             pos.addLast(cl);
         }
         return Response.status(200).entity(pos).build();
@@ -43,7 +45,7 @@ public class Claim_employee {
 
     @GET
     @Path("/processed_claims")
-    public Response processed_claims(@CookieParam("token_employee") String token) throws SQLException, ClassNotFoundException {
+    public Response processed_claims(@CookieParam("token_employee") String token_employee) throws SQLException, ClassNotFoundException {
         Connection conn;
         try {
             conn = new sqlpool().getSingletons().getConnection();
@@ -51,14 +53,63 @@ public class Claim_employee {
             MyMessage m = new MyMessage("sql fail");
             return Response.status(403).entity(m).build();
         }
+        //if(token_employee== null) return new MyMessage("need login").getResponse();
         PreparedStatement ps = conn.prepareStatement("select * from Claim where state <> 'waiting'");
-        //ps.setString(1, token);
+        //ps.setString(1, token_employee);
         ResultSet res = ps.executeQuery();
         LinkedList<Claim_user.Cl> pos = new LinkedList<Claim_user.Cl>();
         while (res.next()) {
             Claim_user.Cl cl = new Claim_user.Cl(res.getInt("claimNo"), res.getInt("policyNo"),
                     res.getString("detail"), res.getString("state"),
-                    res.getString("feedback"));
+                    res.getString("loss_date"), res.getString("claim_date"));
+            pos.addLast(cl);
+        }
+        return Response.status(200).entity(pos).build();
+    }
+
+    @GET
+    @Path("/waiting_claims_user")
+    public Response waiting_claims_user(@CookieParam("token") String token) throws SQLException, ClassNotFoundException {
+        Connection conn;
+        try {
+            conn = new sqlpool().getSingletons().getConnection();
+        } catch (Exception e) {
+            MyMessage m = new MyMessage("sql fail");
+            return Response.status(403).entity(m).build();
+        }
+        if(token== null) return new MyMessage("need login").getResponse();
+        PreparedStatement ps = conn.prepareStatement("select * from Claim where state='waiting' and uid=(select uid from User where token=?)");
+        ps.setString(1, token);
+        ResultSet res = ps.executeQuery();
+        LinkedList<Claim_user.Cl> pos = new LinkedList<Claim_user.Cl>();
+        while (res.next()) {
+            Claim_user.Cl cl = new Claim_user.Cl(res.getInt("claimNo"), res.getInt("policyNo"),
+                    res.getString("detail"), res.getString("state"),
+                    res.getString("loss_date"), res.getString("claim_date"));
+            pos.addLast(cl);
+        }
+        return Response.status(200).entity(pos).build();
+    }
+
+    @GET
+    @Path("/processed_claims_user")
+    public Response processed_claims_user(@CookieParam("token") String token) throws SQLException, ClassNotFoundException {
+        Connection conn;
+        try {
+            conn = new sqlpool().getSingletons().getConnection();
+        } catch (Exception e) {
+            MyMessage m = new MyMessage("sql fail");
+            return Response.status(403).entity(m).build();
+        }
+        if(token== null) return new MyMessage("need login").getResponse();
+        PreparedStatement ps = conn.prepareStatement("select * from Claim where state <> 'waiting' and uid=(select uid from User where token=?)");
+        ps.setString(1, token);
+        ResultSet res = ps.executeQuery();
+        LinkedList<Claim_user.Cl> pos = new LinkedList<Claim_user.Cl>();
+        while (res.next()) {
+            Claim_user.Cl cl = new Claim_user.Cl(res.getInt("claimNo"), res.getInt("policyNo"),
+                    res.getString("detail"), res.getString("state"),
+                    res.getString("loss_date"), res.getString("claim_date"));
             pos.addLast(cl);
         }
         return Response.status(200).entity(pos).build();

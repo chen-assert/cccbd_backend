@@ -18,11 +18,12 @@ public class Process {
     @Path("/process")
     @Produces("text/plain; charset=utf-8")
     public Response process(@FormParam("state") String state, @FormParam("claimNo") String claimNo,
-                            @CookieParam("token_employee") String token) throws SQLException {
+                            @FormParam("feedback") String feedback, @CookieParam("token_employee") String token) throws SQLException {
         Connection conn = new sqlpool().getSingletons().getConnection();
-        PreparedStatement ps = conn.prepareStatement("update Claim set state=? where claimNo=? ");
+        PreparedStatement ps = conn.prepareStatement("update Claim set state=?,feedback=? where claimNo=? ");
         ps.setString(1, state);
-        ps.setString(2, claimNo);
+        ps.setString(2, feedback);
+        ps.setString(3, claimNo);
         int execute = ps.executeUpdate();
         if (execute != 0) {
             return Response.status(200).entity("success").build();
@@ -34,7 +35,7 @@ public class Process {
     @GET
     @Path("/number")
     @Produces("application/json; charset=utf-8")
-    public Response get_number(@CookieParam("token_employee") String token) throws SQLException {
+    public Response get_number(@CookieParam("token_employee") String token_employee) throws SQLException {
         class number implements Serializable {
             public int processed;
             public int unprocessed;
@@ -53,6 +54,32 @@ public class Process {
         ResultSet rs2 = ps2.executeQuery();
         rs2.next();
         int b = rs2.getInt(1);
-        return Response.status(200).entity(new number(a, b)).build();
+        return Response.status(200).entity(new number(b, a)).build();
+    }
+
+    @GET
+    @Path("/my_number")
+    @Produces("application/json; charset=utf-8")
+    public Response get_my_number(@CookieParam("token") String token) throws SQLException {
+        class number implements Serializable {
+            public int processed;
+            public int unprocessed;
+            public number(int processed, int unprocessed) {
+                this.processed = processed;
+                this.unprocessed = unprocessed;
+            }
+        }
+        Connection conn = new sqlpool().getSingletons().getConnection();
+        PreparedStatement ps = conn.prepareStatement("select count(claimNo) from Claim where state ='waiting' and uid=(select uid from User where token=?)");
+        ps.setString(1,token);
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        int a = rs.getInt(1);
+        PreparedStatement ps2 = conn.prepareStatement("select count(claimNo) from Claim where state <>'waiting' and uid=(select uid from User where token=?)");
+        ps2.setString(1,token);
+        ResultSet rs2 = ps2.executeQuery();
+        rs2.next();
+        int b = rs2.getInt(1);
+        return Response.status(200).entity(new number(b, a)).build();
     }
 }
