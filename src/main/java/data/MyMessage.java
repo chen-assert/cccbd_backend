@@ -55,7 +55,7 @@ public class MyMessage implements Serializable {
         this.message = message;
     }
 
-    public Response getResponse(){
+    public Response anogetResponse(){
         return Response.status(403).entity(this).build();
     }
 }

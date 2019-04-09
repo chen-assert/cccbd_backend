@@ -1,6 +1,5 @@
 package policy_and_claim;
 
-import com.fasterxml.jackson.databind.JsonSerializer;
 import data.MyMessage;
 import org.jboss.resteasy.annotations.jaxrs.CookieParam;
 import sql.sqlpool;
@@ -29,7 +28,7 @@ public class Claim_employee {
             MyMessage m = new MyMessage("sql fail");
             return Response.status(403).entity(m).build();
         }
-        //if(token_employee== null) return new MyMessage("need login").getResponse();
+        //if(token_employee== null) return new MyMessage("need login").anogetResponse();
         PreparedStatement ps = conn.prepareStatement("select * from Claim where state='waiting'");
         //ps.setString(1, token_employee);
         ResultSet res = ps.executeQuery();
@@ -53,7 +52,7 @@ public class Claim_employee {
             MyMessage m = new MyMessage("sql fail");
             return Response.status(403).entity(m).build();
         }
-        //if(token_employee== null) return new MyMessage("need login").getResponse();
+        //if(token_employee== null) return new MyMessage("need login").anogetResponse();
         PreparedStatement ps = conn.prepareStatement("select * from Claim where state <> 'waiting'");
         //ps.setString(1, token_employee);
         ResultSet res = ps.executeQuery();
@@ -77,7 +76,7 @@ public class Claim_employee {
             MyMessage m = new MyMessage("sql fail");
             return Response.status(403).entity(m).build();
         }
-        if(token== null) return new MyMessage("need login").getResponse();
+        if (token == null) return new MyMessage("need login").anogetResponse();
         PreparedStatement ps = conn.prepareStatement("select * from Claim where state='waiting' and uid=(select uid from User where token=?)");
         ps.setString(1, token);
         ResultSet res = ps.executeQuery();
@@ -101,7 +100,7 @@ public class Claim_employee {
             MyMessage m = new MyMessage("sql fail");
             return Response.status(403).entity(m).build();
         }
-        if(token== null) return new MyMessage("need login").getResponse();
+        if (token == null) return new MyMessage("need login").anogetResponse();
         PreparedStatement ps = conn.prepareStatement("select * from Claim where state <> 'waiting' and uid=(select uid from User where token=?)");
         ps.setString(1, token);
         ResultSet res = ps.executeQuery();

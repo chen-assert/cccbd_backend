@@ -174,17 +174,24 @@ http://cccbd.top:8080/RESTHello
    
 #### process claim
     @apiName process claim
-    @api {post}     /manage/number
+    @api {post}     /manage/process
     @Produces("text/plain")
     @apiParam {String} state        要修改为的状态
     @apiParam {String} feedback     反馈
     @apiParam {String} claimNo      要修改的claimNo
     @apiSuccessExample (200) {PlainText} "success"
     
+#### append more information
+    @apiName append more information
+    @api {post}     /manage/append
+    @Produces("text/plain")
+    @apiParam {String} appendage    要附加的新信息
+    @apiSuccessExample (200) {PlainText} "success"    
 
 #### get rest claim quantity
     @apiName get claim number
-    @api {get}  /manage/number
+    @api {get}  /manage/number      to employee
+    @api {get}  /manage/my_number   to user
     @Produces("application/json")
     @apiSuccessExample (200) {json} Success-Response:
     {
@@ -242,17 +249,17 @@ pass:123456
 
 presentation-flow
 ppt:
+边展示(注册与登陆)边介绍前端:3min
+what:界面，bootstrap，下载数据到表格
+how:
+benefit:use bootstrap, easy to cross platform/browser, and adapt mobile platform
 后端:2min
 what:database, 域名，服务器，RESTful API, micro server
 how:Digital Ocean cloud server with tomcat
 benefit:High Scalability and Flexibility
-前端:2min
-what:界面，bootstrap，下载数据到表格
-how:
-benefit:use bootstrap, easy to cross platform/browser, and adapt mobile platform
 前后端连接:详细1min
-how to pack(打包):1min
-实际操作展示2min
+how to pack(打包) to mobile:1min
+展示2:1min
 展望未来计划1min
 ask:question 1 min
 
@@ -261,7 +268,6 @@ Customer：
 丢失行李可以点 —> Claim界面 —> 输入信息，以post形式上传到链接 —> 成功
 •process界面 —> 显示所有丢失行李的claim
 •policy界面 —> 显示所有已购买的policy
-
 
 employee：
 登录 —> 用ajax发送登录请求 —> 返回状态码 （set userCookie）—> dashboard （get未完成及完成的表单有多少个）—>

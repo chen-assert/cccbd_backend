@@ -25,7 +25,7 @@ $(document).ready(function () {
         var xhr = new XMLHttpRequest();
         xhr.open('POST', 'http://cccbd.top:8080/RESTHello/login/send', true);
         xhr.withCredentials = true;	//!!
-        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        //xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         xhr.onload = function () {
             console.log(this.responseText);
             $("#result").html(this.responseText);
