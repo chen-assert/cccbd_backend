@@ -34,8 +34,10 @@ public class Claim_employee {
         ResultSet res = ps.executeQuery();
         LinkedList<Claim_user.Cl> pos = new LinkedList<Claim_user.Cl>();
         while (res.next()) {
+            String detail_temp=res.getString("detail");
+            if(detail_temp.length()>20)detail_temp=detail_temp.substring(0,20)+"...";
             Claim_user.Cl cl = new Claim_user.Cl(res.getInt("claimNo"), res.getInt("policyNo"),
-                    res.getString("detail"), res.getString("state"),
+                    detail_temp, res.getString("state"),
                     res.getString("loss_date"), res.getString("claim_date"));
             pos.addLast(cl);
         }
@@ -58,8 +60,10 @@ public class Claim_employee {
         ResultSet res = ps.executeQuery();
         LinkedList<Claim_user.Cl> pos = new LinkedList<Claim_user.Cl>();
         while (res.next()) {
+            String detail_temp=res.getString("detail");
+            if(detail_temp.length()>20)detail_temp=detail_temp.substring(0,20)+"...";
             Claim_user.Cl cl = new Claim_user.Cl(res.getInt("claimNo"), res.getInt("policyNo"),
-                    res.getString("detail"), res.getString("state"),
+                    detail_temp, res.getString("state"),
                     res.getString("loss_date"), res.getString("claim_date"));
             pos.addLast(cl);
         }
@@ -82,8 +86,10 @@ public class Claim_employee {
         ResultSet res = ps.executeQuery();
         LinkedList<Claim_user.Cl> pos = new LinkedList<Claim_user.Cl>();
         while (res.next()) {
+            String detail_temp=res.getString("detail");
+            if(detail_temp.length()>20)detail_temp=detail_temp.substring(0,20)+"...";
             Claim_user.Cl cl = new Claim_user.Cl(res.getInt("claimNo"), res.getInt("policyNo"),
-                    res.getString("detail"), res.getString("state"),
+                    detail_temp, res.getString("state"),
                     res.getString("loss_date"), res.getString("claim_date"));
             pos.addLast(cl);
         }
@@ -106,8 +112,10 @@ public class Claim_employee {
         ResultSet res = ps.executeQuery();
         LinkedList<Claim_user.Cl> pos = new LinkedList<Claim_user.Cl>();
         while (res.next()) {
+            String detail_temp=res.getString("detail");
+            if(detail_temp.length()>20)detail_temp=detail_temp.substring(0,20)+"...";
             Claim_user.Cl cl = new Claim_user.Cl(res.getInt("claimNo"), res.getInt("policyNo"),
-                    res.getString("detail"), res.getString("state"),
+                    detail_temp, res.getString("state"),
                     res.getString("loss_date"), res.getString("claim_date"));
             pos.addLast(cl);
         }

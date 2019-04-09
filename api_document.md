@@ -186,12 +186,15 @@ http://cccbd.top:8080/RESTHello
     @api {post}     /manage/append
     @Produces("text/plain")
     @apiParam {String} appendage    要附加的新信息
-    @apiSuccessExample (200) {PlainText} "success"    
+    @apiParam {String} claimNo      要修改的claimNo
+    @apiSuccessExample (200) {PlainText} "success"
+        
 #### modify information(user)(会删除原先detail并且用新信息覆盖)
     @apiName modify information
     @api {post}     /manage/modify
     @Produces("text/plain")
     @apiParam {String} modification  修改为的新信息
+    @apiParam {String} claimNo      要修改的claimNo
     @apiSuccessExample (200) {PlainText} "success"    
 
 

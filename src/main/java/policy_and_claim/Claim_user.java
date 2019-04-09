@@ -156,8 +156,10 @@ public class Claim_user {
             if (res.next()) {
                 LinkedList<Cl> pos = new LinkedList<Cl>();
                 do {
+                    String detail_temp=res.getString("detail");
+                    if(detail_temp.length()>20)detail_temp=detail_temp.substring(0,20)+"...";
                     Cl cl = new Cl(res.getInt("claimNo"), res.getInt("policyNo"),
-                            res.getString("detail"), res.getString("state"),
+                            detail_temp, res.getString("state"),
                             res.getString("loss_date"),res.getString("claim_date"));
                     pos.addLast(cl);
                 } while (res.next());

@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.security.SecureRandom;
+import java.util.Date;
 import java.util.Random;
 
 import static sql.sqldata.sendgrid_api_key;
@@ -75,7 +76,6 @@ public class test1 {
     }
     @Test
     public void test2(){
-        String w="啊啊啊";
-        System.out.println(w);
+        System.out.println("hello world".substring(0,9));
     }
 }
