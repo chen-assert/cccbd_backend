@@ -18,7 +18,7 @@ public class Process {
     @Path("/process")
     @Produces("text/plain; charset=utf-8")
     public Response process(@FormParam("state") String state, @FormParam("claimNo") String claimNo,
-                            @FormParam("feedback") String feedback, @CookieParam("token_employee") String token) throws SQLException {
+                            @FormParam("feedback") String feedback, @CookieParam("token_employee") String token_employee) throws SQLException {
         Connection conn = new sqlpool().getSingletons().getConnection();
         PreparedStatement ps = conn.prepareStatement("update Claim set state=?,feedback=? where claimNo=? ");
         ps.setString(1, state);
@@ -31,7 +31,22 @@ public class Process {
             return Response.status(403).entity("fail, seems you don't have the claim").build();
         }
     }
-
+    @POST
+    @Path("/append")
+    @Produces("text/plain; charset=utf-8")
+    public Response append(@FormParam("appendage") String appendage,@CookieParam("token") String token) throws SQLException {
+        Connection conn = new sqlpool().getSingletons().getConnection();
+        PreparedStatement ps = conn.prepareStatement("update Claim set state=?,feedback=? where claimNo=? ");
+        ps.setString(1, state);
+        ps.setString(2, feedback);
+        ps.setString(3, claimNo);
+        int execute = ps.executeUpdate();
+        if (execute != 0) {
+            return Response.status(200).entity("success").build();
+        } else {
+            return Response.status(403).entity("fail, seems you don't have the claim").build();
+        }
+    }
     @GET
     @Path("/number")
     @Produces("application/json; charset=utf-8")

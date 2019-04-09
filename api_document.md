@@ -172,7 +172,7 @@ http://cccbd.top:8080/RESTHello
     ]
 
    
-#### process claim
+#### process claim(employee)
     @apiName process claim
     @api {post}     /manage/process
     @Produces("text/plain")
@@ -181,12 +181,19 @@ http://cccbd.top:8080/RESTHello
     @apiParam {String} claimNo      要修改的claimNo
     @apiSuccessExample (200) {PlainText} "success"
     
-#### append more information
+#### append more information(user)(传过去的信息会附加到数据库字段中的末尾)
     @apiName append more information
     @api {post}     /manage/append
     @Produces("text/plain")
     @apiParam {String} appendage    要附加的新信息
     @apiSuccessExample (200) {PlainText} "success"    
+#### modify information(user)(会删除原先detail并且用新信息覆盖)
+    @apiName modify information
+    @api {post}     /manage/modify
+    @Produces("text/plain")
+    @apiParam {String} modification  修改为的新信息
+    @apiSuccessExample (200) {PlainText} "success"    
+
 
 #### get rest claim quantity
     @apiName get claim number
