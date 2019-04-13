@@ -89,7 +89,7 @@ public class Claim_user {
     @Consumes("application/x-www-form-urlencoded; charset=UTF-8")
     @Path("/new_claim")
     public Response new_claim(@CookieParam("token") String token, @Form Claim claim
-    ) throws SQLException, ClassNotFoundException, UnsupportedEncodingException {
+    ) throws SQLException {
         //claim.detail = new String(claim.detail.getBytes("iso-8859-1"), "utf-8");
         //claim.real_name = new String(claim.real_name.getBytes("iso-8859-1"), "utf-8");
         Connection conn;
@@ -99,12 +99,19 @@ public class Claim_user {
             MyMessage m = new MyMessage("sql fail");
             return Response.status(403).entity(m).build();
         }
+        if(claim.detail==null){
+            MyMessage m = new MyMessage();
+            m.setMessage("Bad Request(please write claim detail)");
+            m.setStatus(400);
+            m.setType("fail");
+            return Response.status(400).entity(m).build();
+        }
         if (token == null) {
             MyMessage m = new MyMessage();
-            m.setMessage("Please first login");
-            m.setStatus(403);
+            m.setMessage("Unauthorized");
+            m.setStatus(401);
             m.setType("fail");
-            return Response.status(403).entity(m).build();
+            return Response.status(401).entity(m).build();
         }
         PreparedStatement ps = conn.prepareStatement("select * from Policy where uid = (select uid from User where token=?) and PolicyNo=?");
         ps.setString(1, token);
@@ -156,11 +163,11 @@ public class Claim_user {
             if (res.next()) {
                 LinkedList<Cl> pos = new LinkedList<Cl>();
                 do {
-                    String detail_temp=res.getString("detail");
-                    if(detail_temp.length()>20)detail_temp=detail_temp.substring(0,20)+"...";
+                    String detail_temp = res.getString("detail");
+                    if (detail_temp.length() > 20) detail_temp = detail_temp.substring(0, 20) + "...";
                     Cl cl = new Cl(res.getInt("claimNo"), res.getInt("policyNo"),
                             detail_temp, res.getString("state"),
-                            res.getString("loss_date"),res.getString("claim_date"));
+                            res.getString("loss_date"), res.getString("claim_date"));
                     pos.addLast(cl);
                 } while (res.next());
                 return Response.status(200).entity(pos).build();
