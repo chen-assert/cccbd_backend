@@ -211,7 +211,7 @@ http://cccbd.top:8080/RESTHello
     
 #### send verify code
     @apiName send verify code
-    @api {get}   /verify_code 
+    @api {get}   /address   sended email address
     @Produces("text/plain")
     @apiSuccess (200) {PlainText}
 

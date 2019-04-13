@@ -8,7 +8,6 @@ import sql.sqlpool;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -99,7 +98,7 @@ public class Claim_user {
             MyMessage m = new MyMessage("sql fail");
             return Response.status(403).entity(m).build();
         }
-        if(claim.detail==null){
+        if (claim.detail == null) {
             MyMessage m = new MyMessage();
             m.setMessage("Bad Request(please write claim detail)");
             m.setStatus(400);
@@ -164,7 +163,7 @@ public class Claim_user {
                 LinkedList<Cl> pos = new LinkedList<Cl>();
                 do {
                     String detail_temp = res.getString("detail");
-                    if (detail_temp.length() > 20) detail_temp = detail_temp.substring(0, 20) + "...";
+                    if (detail_temp != null &&detail_temp.length() > 20) detail_temp = detail_temp.substring(0, 20) + "...";
                     Cl cl = new Cl(res.getInt("claimNo"), res.getInt("policyNo"),
                             detail_temp, res.getString("state"),
                             res.getString("loss_date"), res.getString("claim_date"));
@@ -191,8 +190,27 @@ public class Claim_user {
             MyMessage m = new MyMessage("sql fail");
             return Response.status(403).entity(m).build();
         }
-        //todo: authentication
-        if (1 == 1) {
+        int state = 0;
+        if (token == null && token_employee == null) state = -1;
+        if (token != null) {
+            PreparedStatement ps = conn.prepareStatement("select * from User where token=?");
+            ps.setString(1, token);
+            ResultSet rs = ps.executeQuery();
+            if (!rs.next()) state = -1;
+        }
+        if (token_employee != null) {
+            PreparedStatement ps = conn.prepareStatement("select * from Employee where token=?");
+            ps.setString(1, token_employee);
+            ResultSet rs = ps.executeQuery();
+            if (!rs.next()) state = -1;
+        }
+        if (state == -1) {
+            MyMessage m = new MyMessage();
+            m.setMessage("Unauthorized");
+            m.setStatus(401);
+            m.setType("fail");
+            return Response.status(401).entity(m).build();
+        } else {
             PreparedStatement ps = conn.prepareStatement("select * from Claim where claimNo = ?");
             ps.setString(1, claimNo);
             ResultSet res = ps.executeQuery();
@@ -209,15 +227,10 @@ public class Claim_user {
             } else {
                 MyMessage m = new MyMessage();
                 m.setMessage("No such a claim");
-                m.setStatus(403);
+                m.setStatus(404);
                 m.setType("fail");
-                return Response.status(403).entity(m).build();
+                return Response.status(404).entity(m).build();
             }
         }
-        MyMessage m = new MyMessage();
-        m.setMessage("Please first login in");
-        m.setStatus(403);
-        m.setType("fail");
-        return Response.status(403).entity(m).build();
     }
 }
