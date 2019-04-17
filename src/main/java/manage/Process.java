@@ -8,6 +8,7 @@ import sql.sqlpool;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,9 +20,11 @@ import java.util.Date;
 public class Process {
     @POST
     @Path("/process")
+    @Consumes("application/x-www-form-urlencoded; charset=UTF-8")
     @Produces("text/plain; charset=utf-8")
     public Response process(@FormParam("state") String state, @FormParam("claimNo") String claimNo,
-                            @FormParam("feedback") String feedback, @CookieParam("token_employee") String token_employee) throws SQLException {
+                            @FormParam("feedback") String feedback, @CookieParam("token_employee") String token_employee) throws SQLException, UnsupportedEncodingException {
+        feedback = new String(feedback.getBytes("iso-8859-1"), "utf-8");
         Connection conn = new sqlpool().getSingletons().getConnection();
         PreparedStatement ps0 = conn.prepareStatement("select eid from Employee where token = ?");
         ps0.setString(1,token_employee);
@@ -47,9 +50,11 @@ public class Process {
 
     @POST
     @Path("/append")
+    @Consumes("application/x-www-form-urlencoded; charset=UTF-8")
     @Produces("text/plain; charset=utf-8")
     public Response append(@FormParam("appendage") String appendage, @FormParam("claimNo") String claimNo,
-                           @CookieParam("token") String token) throws SQLException {
+                           @CookieParam("token") String token) throws SQLException, UnsupportedEncodingException {
+        appendage = new String(appendage.getBytes("iso-8859-1"), "utf-8");
         Connection conn;
         try {
             conn = new sqlpool().getSingletons().getConnection();
@@ -67,7 +72,7 @@ public class Process {
             return Response.status(403).entity("fail, seems you don't have the claim").build();
         }
         PreparedStatement ps = conn.prepareStatement("update Claim set detail=?,feedback=? where claimNo=?");
-        appendage = "\n\n==" + new Date() + "==\n" + appendage;
+        appendage = "<br>==" + new Date() + "==<br>" + appendage;
         ps.setString(1, detail + appendage);
         ps.setString(2, "waiting");
         ps.setString(3, claimNo);
@@ -81,9 +86,11 @@ public class Process {
 
     @POST
     @Path("/modify")
+    @Consumes("application/x-www-form-urlencoded; charset=UTF-8")
     @Produces("text/plain; charset=utf-8")
     public Response modify(@FormParam("modification") String modification, @FormParam("claimNo") String claimNo,
-                           @CookieParam("token") String token) throws SQLException {
+                           @CookieParam("token") String token) throws SQLException, UnsupportedEncodingException {
+        modification = new String(modification.getBytes("iso-8859-1"), "utf-8");
         Connection conn;
         try {
             conn = new sqlpool().getSingletons().getConnection();

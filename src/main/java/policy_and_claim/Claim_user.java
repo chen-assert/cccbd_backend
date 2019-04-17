@@ -8,6 +8,7 @@ import sql.sqlpool;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -82,15 +83,13 @@ public class Claim_user {
             this.claim_date = claim_date;
         }
     }
-
-
     @POST
     @Consumes("application/x-www-form-urlencoded; charset=UTF-8")
     @Path("/new_claim")
     public Response new_claim(@CookieParam("token") String token, @Form Claim claim
-    ) throws SQLException {
-        //claim.detail = new String(claim.detail.getBytes("iso-8859-1"), "utf-8");
-        //claim.real_name = new String(claim.real_name.getBytes("iso-8859-1"), "utf-8");
+    ) throws SQLException, UnsupportedEncodingException {
+        claim.detail = new String(claim.detail.getBytes("iso-8859-1"), "utf-8");
+        claim.real_name = new String(claim.real_name.getBytes("iso-8859-1"), "utf-8");
         Connection conn;
         try {
             conn = new sqlpool().getSingletons().getConnection();
