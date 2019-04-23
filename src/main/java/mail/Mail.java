@@ -2,10 +2,14 @@ package mail;
 
 
 import com.sendgrid.*;
+import data.MyMessage;
+import sql.sqlpool;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Random;
 
@@ -15,22 +19,35 @@ import static sql.sqldata.sendgrid_api_key;
 @Path("/verify_code")
 @Produces("text/plain; charset=UTF-8")
 public class Mail {
-
     @GET
-    @Path("/")
+    @Path("/new_account")
     public Response sendmail(@QueryParam("address") String address) throws SQLException {
         //if(1==1) return Response.status(200).entity(System.getProperty("user.dir")).build();
+        //todo: this email has been used
         if (address == null) {
             return Response.status(403).entity("you have to set email_address parameter").build();
         }
         try {
-            String path=System.getProperty("user.dir")+"/../webapps/RESTHello-1.0-SNAPSHOT/example/B.html";
-            String content2=readToString(path);
-            Email from = new Email("admin@cccbd.top","Hibernia-Sino");
+            String path = System.getProperty("user.dir") + "/../webapps/RESTHello-1.0-SNAPSHOT/example/B.html";
+            String content2 = readToString(path);
+            Email from = new Email("admin@cccbd.top", "Hibernia-Sino");
             String subject = "Verification code from Hibernia-Sino Travel";
             Email to = new Email(address);
             int flag = new Random().nextInt(899999);
             flag += 100000;
+            Connection conn;
+            try {
+                conn = new sqlpool().getSingletons().getConnection();
+            } catch (Exception e) {
+                MyMessage m = new MyMessage("sql fail");
+                return Response.status(403).entity(m).build();
+            }
+            PreparedStatement ps = conn.prepareStatement(
+                    "REPLACE INTO Email_verification(email_address,create_time,verify_code) VALUES (?,?,?)");
+            ps.setString(1, address);
+            ps.setTimestamp(2, getCurrentTimeStamp());
+            ps.setString(3, String.valueOf(flag));
+            ps.execute();
             content2 = content2.replace("{accountname}", address);
             content2 = content2.replace("{verify_code}", String.valueOf(flag));
             Content content = new Content("text/html", content2);
@@ -45,17 +62,19 @@ public class Mail {
             System.out.println(response.getStatusCode());
             System.out.println(response.getBody());
             System.out.println(response.getHeaders());
-            return Response.status(200).entity("send success, to:" + address).build();
+            return Response.status(200).entity("Sent successfully").build();
         } catch (Exception e) {
-            return Response.status(403).entity(e).build();
+            return Response.status(403).entity("Sent fail, maybe that is not a valid email address").build();
         }
     }
 
     @POST
+    @Path("/new_account")
     public Response sendmail2(@FormParam("address") String address)
             throws SQLException, ClassNotFoundException {
         return sendmail(address);
     }
+
     public String readToString(String fileName) throws IOException {
         String encoding = "UTF-8";
         File file = new File(fileName);
@@ -77,5 +96,11 @@ public class Mail {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private static java.sql.Timestamp getCurrentTimeStamp() {
+        java.util.Date today = new java.util.Date();
+        return new java.sql.Timestamp(today.getTime());
+
     }
 }

@@ -18,17 +18,23 @@ public class Register {
         return Response.status(200).entity("This is register page").build();
     }
 
-    @GET
+
+    @POST
     @Path("/send")
-    public Response register(@QueryParam("username") String username, @QueryParam("password") String password,
-                             @QueryParam("gender") String gender, @QueryParam("email") String email)
-            throws SQLException, ClassNotFoundException {
-        Class.forName("com.mysql.jdbc.Driver");
+    public Response register2(@FormParam("username") String username, @FormParam("password") String password,
+                              @FormParam("gender") String gender, @FormParam("email") String email, @FormParam("verified_code") String verified_code)
+            throws SQLException {
         Connection conn;
         try {
             conn = new sqlpool().getSingletons().getConnection();
         } catch (Exception e) {
             return Response.status(403).entity("sql pool fail!!").build();
+        }
+        PreparedStatement codeps = conn.prepareStatement("select verify_code from Email_verification where email_address=?");
+        codeps.setString(1, email);
+        ResultSet coders = codeps.executeQuery();
+        if (!coders.next() || !coders.getString("verify_code").equals(verified_code)) {
+            return Response.status(403).entity("wrong verification code").build();
         }
         PreparedStatement checkps = conn.prepareStatement("select * from User where name=?");
         checkps.setString(1, username);
@@ -41,20 +47,12 @@ public class Register {
             ps.setString(4, email);
             int execute = ps.executeUpdate();
             if (execute != 0) {
-                return Response.status(200).entity("Register successfully, your username is:" + username).build();
+                return Response.status(200).entity("Registration success, your username is:" + username).build();
             } else {
-                return Response.status(403).entity("Register file,something went wrong, your username is:" + username).build();
+                return Response.status(403).entity("Registration failed, unknown reason").build();
             }
         }
-        return Response.status(403).entity("This account have been registed").build();
-    }
-
-    @POST
-    @Path("/send")
-    public Response register2(@FormParam("username") String username, @FormParam("password") String password,
-                              @FormParam("gender") String gender, @QueryParam("email") String email)
-            throws SQLException, ClassNotFoundException {
-        return register(username, password, gender, email);
+        return Response.status(403).entity("Registration failed, this username has been used").build();
     }
 }
 

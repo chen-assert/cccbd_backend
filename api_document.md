@@ -33,11 +33,12 @@ http://cccbd.top:8080/RESTHello
 
 #### register
     @apiName register
-    @api {get/post}   /login/send/
+    @api {post}   /login/send/
     @apiParam {String} username 
     @apiParam {String} password 
     @apiParam {String} gender
-    @apiParam {String} email  
+    @apiParam {String} email
+    @apiParam {String} verified_code
     @Produces("text/plain")
     @apiSuccess (200) {PlainText}
     @apiSuccessExample {PlainText} 
@@ -193,8 +194,8 @@ http://cccbd.top:8080/RESTHello
     @apiName modify information
     @api {post}     /manage/modify
     @Produces("text/plain")
-    @apiParam {String} modification  修改为的新信息
-    @apiParam {String} claimNo      要修改的claimNo
+    @apiParam {String} modification     修改为的新信息
+    @apiParam {String} claimNo          要修改的claimNo
     @apiSuccessExample (200) {PlainText} "success"    
 
 
@@ -210,8 +211,9 @@ http://cccbd.top:8080/RESTHello
     }
     
 #### send verify code
-    @apiName send verify code
-    @api {get/post}   /address   sended email address
+    @apiName send verify code for register
+    @api {post}   /verify_code/new_account  sended email address
+    @apiParam {String} address  邮箱地址 
     @Produces("text/plain")
     @apiSuccess (200) {PlainText}
 
