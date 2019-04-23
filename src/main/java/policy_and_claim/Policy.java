@@ -22,13 +22,11 @@ public class Policy {
         int policyNo;
         String policyName;
         String content;
-
         public po(int policyNo, String policyName, String content) {
             this.policyNo = policyNo;
             this.policyName = policyName;
             this.content = content;
         }
-
         public int getPolicyNo() {
             return policyNo;
         }

@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Random;
 
@@ -22,10 +23,21 @@ public class Mail {
     @GET
     @Path("/new_account")
     public Response sendmail(@QueryParam("address") String address) throws SQLException {
-        //if(1==1) return Response.status(200).entity(System.getProperty("user.dir")).build();
-        //todo: this email has been used
+        Connection conn;
         if (address == null) {
             return Response.status(403).entity("you have to set email_address parameter").build();
+        }
+        try {
+            conn = new sqlpool().getSingletons().getConnection();
+        } catch (Exception e) {
+            MyMessage m = new MyMessage("sql fail");
+            return Response.status(403).entity(m).build();
+        }
+        PreparedStatement checkps = conn.prepareStatement("select * from User where email=?");
+        checkps.setString(1, address);
+        ResultSet resultSet = checkps.executeQuery();
+        if (resultSet.next()) {
+            return Response.status(403).entity("this address has been used").build();
         }
         try {
             String path = System.getProperty("user.dir") + "/../webapps/RESTHello-1.0-SNAPSHOT/example/B.html";
@@ -35,13 +47,6 @@ public class Mail {
             Email to = new Email(address);
             int flag = new Random().nextInt(899999);
             flag += 100000;
-            Connection conn;
-            try {
-                conn = new sqlpool().getSingletons().getConnection();
-            } catch (Exception e) {
-                MyMessage m = new MyMessage("sql fail");
-                return Response.status(403).entity(m).build();
-            }
             PreparedStatement ps = conn.prepareStatement(
                     "REPLACE INTO Email_verification(email_address,create_time,verify_code) VALUES (?,?,?)");
             ps.setString(1, address);

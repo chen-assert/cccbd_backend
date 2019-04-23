@@ -1,6 +1,7 @@
 package login_and_register;
 
 import sql.sqldata;
+import sql.sqlpool;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -80,7 +81,7 @@ public class AccountList {
     public Response ReList(@QueryParam("limit") int limit) throws ClassNotFoundException, SQLException {
         Connection conn;
         try {
-            conn = new sqldata().getSingletons().getConnection();
+            conn = new sqlpool().getSingletons().getConnection();
         } catch (Exception e) {
             return Response.status(403).entity("sql pool fail!!").build();
         }

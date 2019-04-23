@@ -1,7 +1,7 @@
 Seems need to write a API document...<br>
 
 http://cccbd.top:8080/RESTHello
-
+[TOC]
 ## Register & Login
 #### login
     @apiName login
@@ -237,19 +237,60 @@ http://cccbd.top:8080/RESTHello
             "gender": "female"
         }
     ]
-
-
+## transaction
+#### products list
+    @apiName get product list
+    @apiPermission  all
+    @api {get}   /transaction/products_list 
+    @Produces("application/json")
+    @apiSuccessExample (200) {json} Success-Response:
+    [
+        {
+            "productNo": 1,
+            "productName": "Product1",
+            "content": "This is a really good insurance",
+            "price": 100
+        },
+        {
+            "productNo": 2,
+            "productName": "Product2",
+            "content": "This is a really bad insurance",
+            "price": 200
+        },
+        {
+            "productNo": 3,
+            "productName": "Product3",
+            "content": "This is a excellent insurance, you must buy it",
+            "price": 2000
+        }
+    ]
+#### buy product
+    @apiName add a new claim
+        @apiPermission  need user_token
+        @api {post}   /claim/new_claim 
+        @apiParam {Int} policyNo 
+        @apiParam {String} detail 
+        @apiParam {String} real_name
+        @apiParam {Date} claim_date
+        @apiParam {Date} loss_date
+        @Produces("application/json")
+        @apiSuccessExample (200) {json} Success-Response:
+        {
+            "status": 200,
+            "type": "success",
+            "message": "Add cliam successfully"
+        }
 <br><br><br>
-####test user
+## test user
 name:testuser   
 pass:123456 
 
-####test employee
+## test employee
 name:testemployee   
 pass:123456 
 
 
-###### todo
+## todo
 * test auto generate api document (fail)
 * change framework to spring boot (give up)
 * 邮件发送 (success)
