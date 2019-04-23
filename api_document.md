@@ -64,7 +64,7 @@ http://cccbd.top:8080/RESTHello
             "content": "insure nothing!"
         }
     ]
-   
+
 ## Claim 
 
 #### add a new claim
@@ -147,7 +147,7 @@ http://cccbd.top:8080/RESTHello
             "feedback": null
         }
     ]
-    
+
 #### waiting/processed claims(for single user)
     @apiName get waiting/processed claims
     @apiPermission  need user_token
@@ -173,6 +173,7 @@ http://cccbd.top:8080/RESTHello
     ]
 
    
+
 #### process claim(employee)
     @apiName process claim
     @api {post}     /manage/process
@@ -181,7 +182,7 @@ http://cccbd.top:8080/RESTHello
     @apiParam {String} feedback     反馈
     @apiParam {String} claimNo      要修改的claimNo
     @apiSuccessExample (200) {PlainText} "success"
-    
+
 #### append more information(user)(传过去的信息会附加到数据库字段中的末尾)
     @apiName append more information
     @api {post}     /manage/append
@@ -189,7 +190,7 @@ http://cccbd.top:8080/RESTHello
     @apiParam {String} appendage    要附加的新信息
     @apiParam {String} claimNo      要修改的claimNo
     @apiSuccessExample (200) {PlainText} "success"
-        
+
 #### modify information(user)(会删除原先detail并且用新信息覆盖)
     @apiName modify information
     @api {post}     /manage/modify
@@ -209,7 +210,7 @@ http://cccbd.top:8080/RESTHello
         "processed": 8,
         "unprocessed": 2
     }
-    
+
 #### send verify code
     @apiName send verify code for register
     @api {post}   /verify_code/new_account  sended email address
@@ -256,30 +257,14 @@ http://cccbd.top:8080/RESTHello
             "productName": "Product2",
             "content": "This is a really bad insurance",
             "price": 200
-        },
-        {
-            "productNo": 3,
-            "productName": "Product3",
-            "content": "This is a excellent insurance, you must buy it",
-            "price": 2000
         }
     ]
 #### buy product
     @apiName add a new claim
-        @apiPermission  need user_token
-        @api {post}   /claim/new_claim 
-        @apiParam {Int} policyNo 
-        @apiParam {String} detail 
-        @apiParam {String} real_name
-        @apiParam {Date} claim_date
-        @apiParam {Date} loss_date
-        @Produces("application/json")
-        @apiSuccessExample (200) {json} Success-Response:
-        {
-            "status": 200,
-            "type": "success",
-            "message": "Add cliam successfully"
-        }
+    @apiPermission  need user_token
+    @api {post}   /transaction/buy
+    @apiParam {Int} productNo
+    @Produces("text/plain")
 <br><br><br>
 ## test user
 name:testuser   
