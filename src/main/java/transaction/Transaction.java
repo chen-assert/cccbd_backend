@@ -16,13 +16,13 @@ import java.util.LinkedList;
 @Path("/transaction")
 @Produces("application/json; charset=utf-8")
 public class Transaction {
-    class product implements Serializable {
+    class Product implements Serializable {
         int productNo;
         String productName;
         String content;
         double price;
 
-        public product(int productNo, String productName, String content, double price) {
+        public Product(int productNo, String productName, String content, double price) {
             this.productNo = productNo;
             this.productName = productName;
             this.content = content;
@@ -74,16 +74,37 @@ public class Transaction {
         }
         PreparedStatement ps = conn.prepareStatement("select * from Insurance_product");
         ResultSet res = ps.executeQuery();
-        LinkedList<product> products = new LinkedList<product>();
+        LinkedList<Product> products = new LinkedList<Product>();
         while (res.next()) {
-            products.addLast(new product(res.getInt("productNo"), res.getString("productName"),
+            products.addLast(new Product(res.getInt("productNo"), res.getString("productName"),
                     res.getString("content"), res.getDouble("price")));
         }
         return Response.status(200).entity(products).build();
     }
 
+    @GET
+    @Path("/product_detail")
+    public Response product_detail(@QueryParam("productNo") int productNo) throws SQLException {
+        Connection conn;
+        try {
+            conn = new sqlpool().getSingletons().getConnection();
+        } catch (Exception e) {
+            MyMessage m = new MyMessage("sql fail");
+            return Response.status(403).entity(m).build();
+        }
+        PreparedStatement ps = conn.prepareStatement("select * from Insurance_product where ProductNo=?");
+        ps.setInt(1, productNo);
+        ResultSet res = ps.executeQuery();
+        if (res.next()) {
+            Product product = new Product(res.getInt("productNo"), res.getString("productName"),
+                    res.getString("content"), res.getDouble("price"));
+            return Response.status(200).entity(product).build();
+        } else return Response.status(403).entity("this productNo don't exist").build();
+
+    }
+
     @POST
-    @Path("/buy")
+    @Path("/buy_product")
     @Consumes("application/x-www-form-urlencoded; charset=UTF-8")
     @Produces("text/plain; charset=utf-8")
     public Response modify(@FormParam("productNo") int productNo,
@@ -96,16 +117,16 @@ public class Transaction {
             return Response.status(403).entity(m).build();
         }
         PreparedStatement ps1 = conn.prepareStatement("SELECT * from Insurance_product where ProductNo=?");
-        ps1.setInt(1,productNo);
+        ps1.setInt(1, productNo);
         ResultSet resultSet = ps1.executeQuery();
-        if(resultSet.next()){
+        if (resultSet.next()) {
             PreparedStatement ps2 = conn.prepareStatement("insert into Policy(uid, policyName, content)values ((select uid from User where token=?),?,?)");
-            ps2.setString(1,token);
-            ps2.setString(2,resultSet.getString("ProductName"));
-            ps2.setString(3,resultSet.getString("content"));
+            ps2.setString(1, token);
+            ps2.setString(2, resultSet.getString("ProductName"));
+            ps2.setString(3, resultSet.getString("content"));
             boolean execute = ps2.execute();
             return Response.status(200).entity("success").build();
-        }else{
+        } else {
             return Response.status(403).entity("this productNo don't exist").build();
         }
     }

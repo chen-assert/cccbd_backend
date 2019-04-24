@@ -259,13 +259,27 @@ http://cccbd.top:8080/RESTHello
             "price": 200
         }
     ]
+#### get product detail
+    @apiName get a product detail
+    @apiPermission  all
+    @api {get}   /transaction/product_detail
+    @apiParam {Int} productNo
+    @Produces("application/json")
+    @apiSuccessExample (200) {json} Success-Response:
+    {
+        "productNo": 1,
+        "productName": "Product1",
+        "content": "This is a really good insurance",
+        "price": 100
+    }
 #### buy product
     @apiName add a new claim
     @apiPermission  need user_token
-    @api {post}   /transaction/buy
+    @api {post}   /transaction/buy_product
     @apiParam {Int} productNo
     @Produces("text/plain")
 <br><br><br>
+
 ## test user
 name:testuser   
 pass:123456 
