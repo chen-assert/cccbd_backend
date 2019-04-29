@@ -31,7 +31,7 @@ https://cccbd.top:8443/RESTHello
         "message": "Login fail"
     }
 
-#### register
+#### Register
     @apiName register
     @api {post}   /login/send/
     @apiParam {String} username 
@@ -50,7 +50,6 @@ https://cccbd.top:8443/RESTHello
     @apiName get your policy list
     @apiPermission  need user_token
     @api {get}   /policy/my_policies 
-    @Produces("application/json")
     @apiSuccessExample (200) {json} Success-Response:
     [
         {
@@ -76,7 +75,6 @@ https://cccbd.top:8443/RESTHello
     @apiParam {String} real_name
     @apiParam {Date} claim_date
     @apiParam {Date} loss_date
-    @Produces("application/json")
     @apiSuccessExample (200) {json} Success-Response:
     {
         "status": 200,
@@ -88,7 +86,6 @@ https://cccbd.top:8443/RESTHello
     @apiName get your claim list
     @apiPermission  need user_token
     @api {get}   /claim/my_claims 
-    @Produces("application/json")
     @apiSuccessExample (200) {json} Success-Response:
     [
         {
@@ -112,7 +109,6 @@ https://cccbd.top:8443/RESTHello
     @apiPermission  need user_token or employee_token
     @api {get}   /claim/detail 
     @apiParam {Int} ClaimNo 
-    @Produces("application/json")
     @apiSuccessExample (200) {json} Success-Response:
     {
         "ClaimNo": "34",
@@ -129,7 +125,6 @@ https://cccbd.top:8443/RESTHello
     @apiPermission  need employee_token
     @api {get}  /claim/waiting_claims           waiting(unprocessed) claims
     @api {get}  /claim/processed_claims         processed claim
-    @Produces("application/json")
     @apiSuccessExample (200) {json} Success-Response:
     [
         {
@@ -153,7 +148,6 @@ https://cccbd.top:8443/RESTHello
     @apiPermission  need user_token
     @api {get}  /claim/waiting_claims_user          waiting(unprocessed) claims
     @api {get}  /claim/processed_claims_user        processed claim
-    @Produces("application/json")
     @apiSuccessExample (200) {json} Success-Response:
     [
         {
@@ -177,7 +171,6 @@ https://cccbd.top:8443/RESTHello
 #### process claim(employee)
     @apiName process claim
     @api {post}     /manage/process
-    @Produces("text/plain")
     @apiParam {String} state        要修改为的状态
     @apiParam {String} feedback     反馈
     @apiParam {String} claimNo      要修改的claimNo
@@ -186,7 +179,6 @@ https://cccbd.top:8443/RESTHello
 #### append more information(user)(传过去的信息会附加到数据库字段中的末尾)
     @apiName append more information
     @api {post}     /manage/append
-    @Produces("text/plain")
     @apiParam {String} appendage    要附加的新信息
     @apiParam {String} claimNo      要修改的claimNo
     @apiSuccessExample (200) {PlainText} "success"
@@ -194,7 +186,6 @@ https://cccbd.top:8443/RESTHello
 #### modify information(user)(会删除原先detail并且用新信息覆盖)
     @apiName modify information
     @api {post}     /manage/modify
-    @Produces("text/plain")
     @apiParam {String} modification     修改为的新信息
     @apiParam {String} claimNo          要修改的claimNo
     @apiSuccessExample (200) {PlainText} "success"    
@@ -204,7 +195,6 @@ https://cccbd.top:8443/RESTHello
     @apiName get claim number
     @api {get}  /manage/number      to employee
     @api {get}  /manage/my_number   to user
-    @Produces("application/json")
     @apiSuccessExample (200) {json} Success-Response:
     {
         "processed": 8,
@@ -215,14 +205,13 @@ https://cccbd.top:8443/RESTHello
     @apiName send verify code for register
     @api {post}   /verify_code/new_account  sended email address
     @apiParam {String} address  邮箱地址 
-    @Produces("text/plain")
     @apiSuccess (200) {PlainText}
+
 
 #### get account list
     @apiName get account list
     @api {get}   /account
     @apiParam {int} limit number limit 
-    @Produces("application/json")
     @apiSuccessExample (200) {json} Success-Response:
     [
         {
@@ -243,7 +232,6 @@ https://cccbd.top:8443/RESTHello
     @apiName get product list
     @apiPermission  all
     @api {get}   /transaction/products_list 
-    @Produces("application/json")
     @apiSuccessExample (200) {json} Success-Response:
     [
         {
@@ -264,7 +252,6 @@ https://cccbd.top:8443/RESTHello
     @apiPermission  all
     @api {get}   /transaction/product_detail
     @apiParam {Int} productNo
-    @Produces("application/json")
     @apiSuccessExample (200) {json} Success-Response:
     {
         "productNo": 1,
@@ -277,7 +264,27 @@ https://cccbd.top:8443/RESTHello
     @apiPermission  need user_token
     @api {post}   /transaction/buy_product
     @apiParam {Int} productNo
-    @Produces("text/plain")
+    
+## Reset Password
+
+#### Send verify code for reset password 
+    @apiName send verify code for reset password
+    @api {post}   /verify_code/email_employee
+    @api {post}   /verify_code/email_customer
+    @apiParam {String} address  邮箱地址 
+    @apiSuccess (200) {PlainText}
+    
+#### Reset
+    @apiName reset
+    @api {post}   /verify_code/reset_employee
+    @api {post}   /verify_code/reset_customer
+    @apiParam {String} username
+    @apiParam {String} password
+    @apiParam {String} email
+    @apiParam {String} verified_code
+    @apiSuccess (200) {PlainText}
+
+
 <br><br><br>
 
 ## test user
@@ -294,7 +301,6 @@ pass:123456
 * change framework to spring boot (give up)
 * 邮件发送 (success)
 * 改写web.xml为autoscan模式 (fail)
-* 显示旧的信息+新的content
 * 对所有网页添加token验证 (...好麻烦啊,spring真香)
 * 单元测试...咋写啊!
 * 参考resteasy最佳实践
@@ -314,18 +320,5 @@ how to pack(打包) to mobile:1min
 展示2:1min
 展望未来计划1min
 ask:question 1 min
-
-Customer：
-登录—> 用ajax发送登录请求 —> 返回状态码 （set userCookie）—> customer主页面（个人信息还没完成） —>
-丢失行李可以点 —> Claim界面 —> 输入信息，以post形式上传到链接 —> 成功
-•process界面 —> 显示所有丢失行李的claim
-•policy界面 —> 显示所有已购买的policy
-
-employee：
-登录 —> 用ajax发送登录请求 —> 返回状态码 （set userCookie）—> dashboard （get未完成及完成的表单有多少个）—>
-Unprocessed get所有state为waiting的claim，点击链接得到policyNo，跳转到processing界面，
-发送policyNo到后端，后端把该保单所有信息发送到processing界面，点击按钮设置state（后端更新state） —>
-跳转到Unprocessed界面，claim-1
-
 
 

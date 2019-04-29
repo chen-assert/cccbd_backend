@@ -34,7 +34,7 @@ public class Register {
         codeps.setString(1, email);
         ResultSet coders = codeps.executeQuery();
         if (!coders.next() || !coders.getString("verify_code").equals(verified_code)) {
-            return Response.status(403).entity("wrong verification code").build();
+            return Response.status(403).entity("Wrong verification code").build();
         }
         PreparedStatement checkps = conn.prepareStatement("select * from User where name=?");
         checkps.setString(1, username);
