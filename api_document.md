@@ -7,10 +7,8 @@ https://cccbd.top:8443/RESTHello
     @apiName login
     @api {get/post}   /login/send/              user login
     @api {get/post}   /login/send_employee/     employee login
-    @comment user和employee登陆的其余部分一样
     @apiParam {String} username 
     @apiParam {String} password 
-    @Produces("application/json")
     @apiSuccess (200) {int} status  status code
     @apiSuccess (200) {String} type  login type
     @apiSuccess (200) {String} username  login user name
@@ -39,7 +37,6 @@ https://cccbd.top:8443/RESTHello
     @apiParam {String} gender
     @apiParam {String} email
     @apiParam {String} verified_code
-    @Produces("text/plain")
     @apiSuccess (200) {PlainText}
     @apiSuccessExample {PlainText} 
     Register success, your username is: username
@@ -321,4 +318,4 @@ how to pack(打包) to mobile:1min
 展望未来计划1min
 ask:question 1 min
 
-
+apidoc -i src/ -o apidoc/

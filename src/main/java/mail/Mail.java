@@ -26,7 +26,12 @@ public class Mail {
             throws SQLException {
         return new_account(address);
     }
-
+    /**
+     * @apiGroup Login&Register
+     * @api {post}   /verify_code/new_account  send verify code for register
+     * @apiParam {String} address  邮箱地址
+     * @apiSuccess (200) {String} Response
+     */
     @GET
     @Path("/new_account")
     public Response new_account(@QueryParam("address") String address) throws SQLException {
@@ -103,7 +108,7 @@ public class Mail {
         PreparedStatement codeps = conn.prepareStatement("select verify_code from Email_verification where email_address=?");
         codeps.setString(1, email);
         ResultSet coders = codeps.executeQuery();
-            if (!coders.next() || !coders.getString("verify_code").equals(verified_code)) {
+        if (!coders.next() || !coders.getString("verify_code").equals(verified_code)) {
             return Response.status(403).entity("Wrong verification code").build();
         }
         PreparedStatement checkps = conn.prepareStatement("select * from Employee where name=?");
@@ -122,6 +127,7 @@ public class Mail {
             return Response.status(403).entity("Reset failed, unknown reason").build();
         }
     }
+
     @POST
     @Path("/email_customer")
     public Response email_customer(@FormParam("address") String address) throws SQLException {
@@ -183,6 +189,7 @@ public class Mail {
             return Response.status(403).entity("Reset failed, unknown reason").build();
         }
     }
+
     private int send_email(String address) throws IOException {
         String path = System.getProperty("user.dir") + "/../webapps/RESTHello-1.0-SNAPSHOT/example/B.html";
         String content2 = readToString(path);

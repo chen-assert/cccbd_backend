@@ -12,6 +12,30 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * @apiGroup Login&Register
+ * @api {get/post}   /login/send/   login as customer
+ * @apiParam {String} username
+ * @apiParam {String} password
+ * @apiSuccess (200) {int} status  status code
+ * @apiSuccess (200) {String} type  login type
+ * @apiSuccess (200) {String} username  login user name
+ * @apiSuccess (200) {String} message  appended text message.
+ * @apiSuccessExample {json} Success-Response:
+ * {
+ * "status": 200,
+ * "type": "success",
+ * "username": "myname",
+ * "message": "Login success"
+ * }
+ * @apiErrorExample {json} Error-Response:
+ * {
+ * "status": 403,
+ * "type": "fail",
+ * "username": "myname",
+ * "message": "Login fail"
+ * }
+ */
 @Path("/login")
 public class Login {
     @GET
@@ -73,6 +97,30 @@ public class Login {
         return login(username, password);
     }
 
+    /**
+     * @apiGroup Login&Register
+     * @api {get/post}   /login/send_employee/   login as employee
+     * @apiParam {String} username
+     * @apiParam {String} password
+     * @apiSuccess (200) {int} status  status code
+     * @apiSuccess (200) {String} type  login type
+     * @apiSuccess (200) {String} username  login user name
+     * @apiSuccess (200) {String} message  appended text message.
+     * @apiSuccessExample {json} Success-Response:
+     * {
+     * "status": 200,
+     * "type": "success",
+     * "username": "myname",
+     * "message": "Login success"
+     * }
+     * @apiErrorExample {json} Error-Response:
+     * {
+     * "status": 403,
+     * "type": "fail",
+     * "username": "myname",
+     * "message": "Login fail"
+     * }
+     */
     @GET
     @Path("/send_employee")
     @Produces("application/json; charset=utf-8")

@@ -18,7 +18,16 @@ public class Register {
         return Response.status(200).entity("This is register page").build();
     }
 
-
+    /**
+     * @apiGroup Login&Register
+     * @api {post}   /login/send/  customer register
+     * @apiParam {String} username
+     * @apiParam {String} password
+     * @apiParam {String} gender
+     * @apiParam {String} email
+     * @apiParam {String} verified_code
+     * @apiSuccess (200) {String} Response
+     */
     @POST
     @Path("/send")
     public Response register2(@FormParam("username") String username, @FormParam("password") String password,

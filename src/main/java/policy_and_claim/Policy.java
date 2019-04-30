@@ -22,11 +22,13 @@ public class Policy {
         int policyNo;
         String policyName;
         String content;
+
         public po(int policyNo, String policyName, String content) {
             this.policyNo = policyNo;
             this.policyName = policyName;
             this.content = content;
         }
+
         public int getPolicyNo() {
             return policyNo;
         }
@@ -52,6 +54,25 @@ public class Policy {
         }
     }
 
+    /**
+     * @apiGroup Policy
+     * @apiName nameIsUseless
+     * @apiPermission user
+     * @api {get}  /policy/my_policies get your policy list
+     * @apiSuccessExample (200) {json} Success-Response:
+     * [
+     * {
+     * "policyNo": 1,
+     * "policyName": "testpolicy",
+     * "content": "insure everything!"
+     * },
+     * {
+     * "policyNo": 2,
+     * "policyName": "testpolicy2",
+     * "content": "insure nothing!"
+     * }
+     * ]
+     */
     @GET
     @Path("/my_policies")
     public Response my_policies(@CookieParam("token") String token) throws SQLException, ClassNotFoundException {
