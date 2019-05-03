@@ -13,7 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * @apiGroup Login&Register
+ * @apiGroup Login and Register
  * @api {get/post}   /login/send/   login as customer
  * @apiParam {String} username
  * @apiParam {String} password
@@ -98,7 +98,7 @@ public class Login {
     }
 
     /**
-     * @apiGroup Login&Register
+     * @apiGroup Login and Register
      * @api {get/post}   /login/send_employee/   login as employee
      * @apiParam {String} username
      * @apiParam {String} password

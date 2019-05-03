@@ -62,6 +62,25 @@ public class Transaction {
         }
     }
 
+    /**
+     * @apiGroup transaction
+     * @api {get}   /transaction/products_list get product list
+     * @apiSuccessExample (200) {json} Success-Response:
+     * [
+     * {
+     * "productNo": 1,
+     * "productName": "Product1",
+     * "content": "This is a really good insurance",
+     * "price": 100
+     * },
+     * {
+     * "productNo": 2,
+     * "productName": "Product2",
+     * "content": "This is a really bad insurance",
+     * "price": 200
+     * }
+     * ]
+     */
     @GET
     @Path("/products_list")
     public Response products_list() throws SQLException, ClassNotFoundException {
@@ -82,6 +101,18 @@ public class Transaction {
         return Response.status(200).entity(products).build();
     }
 
+    /**
+     * @apiGroup transaction
+     * @api {get}   /transaction/product_detail get a product detail
+     * @apiParam {Int} productNo
+     * @apiSuccessExample (200) {json} Success-Response:
+     * {
+     * "productNo": 1,
+     * "productName": "Product1",
+     * "content": "This is a really good insurance",
+     * "price": 100
+     * }
+     */
     @GET
     @Path("/product_detail")
     public Response product_detail(@QueryParam("productNo") int productNo) throws SQLException {
@@ -103,6 +134,12 @@ public class Transaction {
 
     }
 
+    /**
+     * @apiGroup transaction
+     * @apiPermission user
+     * @api {post}   /transaction/buy_product buy a new product
+     * @apiParam {Int} productNo
+     */
     @POST
     @Path("/buy_product")
     @Consumes("application/x-www-form-urlencoded; charset=UTF-8")

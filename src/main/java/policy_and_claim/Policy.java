@@ -55,7 +55,7 @@ public class Policy {
     }
 
     /**
-     * @apiGroup Policy
+     * @apiGroup Policy and Claim
      * @apiName nameIsUseless
      * @apiPermission user
      * @api {get}  /policy/my_policies get your policy list

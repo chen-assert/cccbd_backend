@@ -83,6 +83,23 @@ public class Claim_user {
             this.claim_date = claim_date;
         }
     }
+
+    /**
+     * @apiGroup Policy and Claim
+     * @apiPermission user
+     * @api {post}   /claim/new_claim add a new claim
+     * @apiParam {Int} policyNo
+     * @apiParam {String} detail
+     * @apiParam {String} real_name
+     * @apiParam {Date} claim_date
+     * @apiParam {Date} loss_date
+     * @apiSuccessExample (200) {json} Success-Response:
+     * {
+     * "status": 200,
+     * "type": "success",
+     * "message": "Add cliam successfully"
+     * }
+     */
     @POST
     @Consumes("application/x-www-form-urlencoded; charset=UTF-8")
     @Path("/new_claim")
@@ -143,7 +160,28 @@ public class Claim_user {
 
     }
 
-
+    /**
+     * @apiGroup Policy and Claim
+     * @apiPermission user
+     * @api {get}   /claim/my_claims  get user's claim list
+     * @apiSuccessExample (200) {json} Success-Response:
+     * [
+     * {
+     * "claimNo": 1,
+     * "policyNo": 1,
+     * "detail": "I lost myself",
+     * "state": "accept",
+     * "feedback": null
+     * },
+     * {
+     * "claimNo": 2,
+     * "policyNo": 1,
+     * "detail": "I lost! I lost!",
+     * "state": "waiting",
+     * "feedback": null
+     * }
+     * ]
+     */
     @GET
     @Path("/my_claims")
     public Response my_policies(@CookieParam("token") String token) throws SQLException, ClassNotFoundException {
@@ -162,7 +200,8 @@ public class Claim_user {
                 LinkedList<Cl> pos = new LinkedList<Cl>();
                 do {
                     String detail_temp = res.getString("detail");
-                    if (detail_temp != null &&detail_temp.length() > 20) detail_temp = detail_temp.substring(0, 20) + "...";
+                    if (detail_temp != null && detail_temp.length() > 20)
+                        detail_temp = detail_temp.substring(0, 20) + "...";
                     Cl cl = new Cl(res.getInt("claimNo"), res.getInt("policyNo"),
                             detail_temp, res.getString("state"),
                             res.getString("loss_date"), res.getString("claim_date"));
@@ -178,6 +217,22 @@ public class Claim_user {
         return Response.status(403).entity(m).build();
     }
 
+    /**
+     * @apiGroup Policy and Claim
+     * @apiPermission user or employee
+     * @api {get}   /claim/detail  get a claim detail
+     * @apiParam {Int} ClaimNo
+     * @apiSuccessExample (200) {json} Success-Response:
+     * {
+     * "ClaimNo": "34",
+     * "policyNo": "2",
+     * "detail": "detail blablabla",
+     * "real_name": "chen",
+     * "claim_date": "2019-04-02",
+     * "loss_date": "2019-04-01",
+     * "feedback": null
+     * }
+     */
     @GET
     @Path("/detail")
     public Response claim_detail(@CookieParam("token") String token, @CookieParam("token_employee") String token_employee,

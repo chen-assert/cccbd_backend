@@ -20,18 +20,20 @@ import static sql.sqldata.sendgrid_api_key;
 @Path("/verify_code")
 @Produces("text/plain; charset=UTF-8")
 public class Mail {
+    /**
+     * @apiGroup Login and Register
+     * @api {post}   /verify_code/new_account  send verify code for register
+     * @apiParam {String} address 邮箱地址
+     * @apiSuccess (200) {String} Response
+     */
     @POST
     @Path("/new_account")
     public Response new_account2(@FormParam("address") String address)
             throws SQLException {
         return new_account(address);
     }
-    /**
-     * @apiGroup Login&Register
-     * @api {post}   /verify_code/new_account  send verify code for register
-     * @apiParam {String} address  邮箱地址
-     * @apiSuccess (200) {String} Response
-     */
+
+
     @GET
     @Path("/new_account")
     public Response new_account(@QueryParam("address") String address) throws SQLException {
@@ -65,7 +67,12 @@ public class Mail {
         }
     }
 
-
+    /**
+     * @apiGroup Login and Register
+     * @api {post}   /verify_code/(email_employee/email_customer)  send verify code for reset password
+     * @apiParam {String} address 邮箱地址
+     * @apiSuccess (200) {String} Response
+     */
     @POST
     @Path("/email_employee")
     public Response email_employee(@FormParam("address") String address) throws SQLException {
@@ -99,6 +106,15 @@ public class Mail {
         }
     }
 
+    /**
+     * @apiGroup Login and Register
+     * @api {post}   /verify_code/(reset_employee/reset_customer)  reset password
+     * @apiParam {String} username
+     * @apiParam {String} password
+     * @apiParam {String} email
+     * @apiParam {String} verified_code
+     * @apiSuccess (200) {String} Response
+     */
     @POST
     @Path("/reset_employee")
     public Response reset_employee(@FormParam("username") String username, @FormParam("password") String password,

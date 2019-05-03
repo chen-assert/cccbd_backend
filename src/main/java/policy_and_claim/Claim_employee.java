@@ -12,13 +12,35 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.LinkedList;
 
 
 @Path("/claim")
 @Produces("application/json; charset=utf-8")
 public class Claim_employee {
+    /**
+     * @apiGroup Policy and Claim
+     * @apiName get waiting/processed claims
+     * @apiPermission employee
+     * @api {get}  /claim/(waiting_claims/processed_claims)           get waiting/processed claims
+     * @apiSuccessExample (200) {json} Success-Response:
+     * [
+     * {
+     * "claimNo": 2,
+     * "policyNo": 1,
+     * "detail": "I lost! I lost!",
+     * "state": "waiting",
+     * "feedback": null
+     * },
+     * {
+     * "claimNo": 3,
+     * "policyNo": 2,
+     * "detail": "ahhhhhh",
+     * "state": "waiting",
+     * "feedback": null
+     * }
+     * ]
+     */
     @GET
     @Path("/waiting_claims")
     public Response waiting_claim(@CookieParam("token_employee") String token_employee) throws SQLException, ClassNotFoundException {
@@ -36,7 +58,7 @@ public class Claim_employee {
         LinkedList<Claim_user.Cl> pos = new LinkedList<Claim_user.Cl>();
         while (res.next()) {
             String detail_temp = res.getString("detail");
-            if (detail_temp != null &&detail_temp.length() > 20) detail_temp = detail_temp.substring(0, 20) + "...";
+            if (detail_temp != null && detail_temp.length() > 20) detail_temp = detail_temp.substring(0, 20) + "...";
             Claim_user.Cl cl = new Claim_user.Cl(res.getInt("claimNo"), res.getInt("policyNo"),
                     detail_temp, res.getString("state"),
                     res.getString("loss_date"), res.getString("claim_date"));
@@ -88,7 +110,7 @@ public class Claim_employee {
         LinkedList<Claim_user.Cl> pos = new LinkedList<Claim_user.Cl>();
         while (res.next()) {
             String detail_temp = res.getString("detail");
-            if (detail_temp != null &&detail_temp.length() > 20) detail_temp = detail_temp.substring(0, 20) + "...";
+            if (detail_temp != null && detail_temp.length() > 20) detail_temp = detail_temp.substring(0, 20) + "...";
             Claim_user.Cl cl = new Claim_user.Cl(res.getInt("claimNo"), res.getInt("policyNo"),
                     detail_temp, res.getString("state"),
                     res.getString("loss_date"), res.getString("claim_date"));
@@ -114,7 +136,7 @@ public class Claim_employee {
         LinkedList<Claim_user.Cl> pos = new LinkedList<Claim_user.Cl>();
         while (res.next()) {
             String detail_temp = res.getString("detail");
-            if (detail_temp != null &&detail_temp.length() > 20) detail_temp = detail_temp.substring(0, 20) + "...";
+            if (detail_temp != null && detail_temp.length() > 20) detail_temp = detail_temp.substring(0, 20) + "...";
             Claim_user.Cl cl = new Claim_user.Cl(res.getInt("claimNo"), res.getInt("policyNo"),
                     detail_temp, res.getString("state"),
                     res.getString("loss_date"), res.getString("claim_date"));

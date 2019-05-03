@@ -19,7 +19,7 @@ public class Register {
     }
 
     /**
-     * @apiGroup Login&Register
+     * @apiGroup Login and Register
      * @api {post}   /login/send/  customer register
      * @apiParam {String} username
      * @apiParam {String} password

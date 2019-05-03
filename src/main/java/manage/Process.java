@@ -4,7 +4,6 @@ import data.MyMessage;
 import org.jboss.resteasy.annotations.jaxrs.CookieParam;
 import sql.sqlpool;
 
-
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.Serializable;
@@ -18,6 +17,15 @@ import java.util.Date;
 @Path("/manage")
 
 public class Process {
+    /**
+     * @apiGroup Manage
+     * @apiName process claim
+     * @api {post}     /manage/process process claim
+     * @apiParam {String} state        要修改为的状态
+     * @apiParam {String} feedback     反馈
+     * @apiParam {String} claimNo      要修改的claimNo
+     * @apiSuccess (200) {String} Response
+     */
     @POST
     @Path("/process")
     @Consumes("application/x-www-form-urlencoded; charset=UTF-8")
@@ -27,12 +35,12 @@ public class Process {
         feedback = new String(feedback.getBytes("iso-8859-1"), "utf-8");
         Connection conn = new sqlpool().getSingletons().getConnection();
         PreparedStatement ps0 = conn.prepareStatement("select eid from Employee where token = ?");
-        ps0.setString(1,token_employee);
+        ps0.setString(1, token_employee);
         ResultSet resultSet = ps0.executeQuery();
         String eid;
-        if(resultSet.next()){
-            eid=resultSet.getString("eid");
-        }else{
+        if (resultSet.next()) {
+            eid = resultSet.getString("eid");
+        } else {
             return Response.status(401).entity("Unauthorized").build();
         }
         PreparedStatement ps = conn.prepareStatement("update Claim set state=?,feedback=?,eid=?where claimNo=?");
@@ -48,6 +56,13 @@ public class Process {
         }
     }
 
+    /**
+     * @apiGroup Manage
+     * @api {post}     /manage/append append more information to claim
+     * @apiParam {String} appendage    要附加的新信息
+     * @apiParam {String} claimNo      要修改的claimNo
+     * @apiSuccess (200) {String} Response
+     */
     @POST
     @Path("/append")
     @Consumes("application/x-www-form-urlencoded; charset=UTF-8")
@@ -84,6 +99,13 @@ public class Process {
         }
     }
 
+    /**
+     * @apiGroup Manage
+     * @api {post}     /manage/modify modify claim information
+     * @apiParam {String} modification     要修改为的新信息
+     * @apiParam {String} claimNo          要修改的claimNo
+     * @apiSuccess (200) {String} Response
+     */
     @POST
     @Path("/modify")
     @Consumes("application/x-www-form-urlencoded; charset=UTF-8")
@@ -110,6 +132,16 @@ public class Process {
         }
     }
 
+    /**
+     * @apiGroup manage
+     * @apiName get claim number
+     * @api {get}  /manage/(number/my_number)      get claim number(user/employee)
+     * @apiSuccessExample (200) {json} Success-Response:
+     * {
+     * "processed": 8,
+     * "unprocessed": 2
+     * }
+     */
     @GET
     @Path("/number")
     @Produces("application/json; charset=utf-8")

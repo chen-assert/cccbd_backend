@@ -1,4 +1,5 @@
-Seems need to write a API document...<br>
+Now all documents change to this site:
+https://cccbd.top:8443/RESTHello/apidoc/index.html
 
 https://cccbd.top:8443/RESTHello
 [TOC]
@@ -41,7 +42,7 @@ https://cccbd.top:8443/RESTHello
     @apiSuccessExample {PlainText} 
     Register success, your username is: username
 
-## Policy
+## Policy & Claim
 
 #### get policies
     @apiName get your policy list
@@ -61,7 +62,6 @@ https://cccbd.top:8443/RESTHello
         }
     ]
 
-## Claim 
 
 #### add a new claim
     @apiName add a new claim
@@ -205,25 +205,7 @@ https://cccbd.top:8443/RESTHello
     @apiSuccess (200) {PlainText}
 
 
-#### get account list
-    @apiName get account list
-    @api {get}   /account
-    @apiParam {int} limit number limit 
-    @apiSuccessExample (200) {json} Success-Response:
-    [
-        {
-            "name": "testname",
-            "pass": "testpass",
-            "id": "1",
-            "gender": "male"
-        },
-        {
-            "name": "chen",
-            "pass": "123456",
-            "id": "2",
-            "gender": "female"
-        }
-    ]
+
 ## transaction
 #### products list
     @apiName get product list
@@ -244,6 +226,7 @@ https://cccbd.top:8443/RESTHello
             "price": 200
         }
     ]
+    
 #### get product detail
     @apiName get a product detail
     @apiPermission  all
@@ -256,8 +239,9 @@ https://cccbd.top:8443/RESTHello
         "content": "This is a really good insurance",
         "price": 100
     }
+    
 #### buy product
-    @apiName add a new claim
+    @apiName buy a new product
     @apiPermission  need user_token
     @api {post}   /transaction/buy_product
     @apiParam {Int} productNo
@@ -271,6 +255,7 @@ https://cccbd.top:8443/RESTHello
     @apiParam {String} address  邮箱地址 
     @apiSuccess (200) {PlainText}
     
+
 #### Reset
     @apiName reset
     @api {post}   /verify_code/reset_employee
@@ -294,9 +279,8 @@ pass:123456
 
 
 ## todo
-* test auto generate api document (fail)
+* test auto generate api document (working)
 * change framework to spring boot (give up)
-* 邮件发送 (success)
 * 改写web.xml为autoscan模式 (fail)
 * 对所有网页添加token验证 (...好麻烦啊,spring真香)
 * 单元测试...咋写啊!
@@ -318,4 +302,6 @@ how to pack(打包) to mobile:1min
 展望未来计划1min
 ask:question 1 min
 
-apidoc -i src/ -o apidoc/
+apidoc -i src/main/java -o src/main/webapp/apidoc/
+
+
