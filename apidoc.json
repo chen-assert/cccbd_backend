@@ -1,7 +1,7 @@
 {
-  "name": "CCCBD_API",
+  "name": "CCCBD API",
   "version": "0.9.8",
-  "description": "CCCBD group's API document",
+  "description": "CCCBD Group's Insurance Project API document",
   "title": "CCCBD_API",
   "url" : "https://cccbd.top:8443/RESTHello"
 }
