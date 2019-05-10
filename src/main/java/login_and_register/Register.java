@@ -9,6 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static org.apache.commons.codec.digest.DigestUtils.sha384Hex;
+
 @Path("/register")
 @Produces("text/plain; charset=utf-8")
 public class Register {
@@ -26,13 +28,16 @@ public class Register {
      * @apiParam {String} gender
      * @apiParam {String} email
      * @apiParam {String} verified_code
+     * @apiParam {String} passport_no
      * @apiSuccess (200) {String} Response
      */
     @POST
     @Path("/send")
     public Response register2(@FormParam("username") String username, @FormParam("password") String password,
-                              @FormParam("gender") String gender, @FormParam("email") String email, @FormParam("verified_code") String verified_code)
+                              @FormParam("gender") String gender, @FormParam("email") String email,
+                              @FormParam("verified_code") String verified_code,@FormParam("passport_no") String passport_no)
             throws SQLException {
+        password=sha384Hex(password);
         Connection conn;
         try {
             conn = new sqlpool().getSingletons().getConnection();
@@ -49,11 +54,12 @@ public class Register {
         checkps.setString(1, username);
         ResultSet resultSet = checkps.executeQuery();
         if (!resultSet.next()) {
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO User (`name`, `pass`, `gender`, `email`) VALUES (?, ?, ?,?)");
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO User (`name`, `pass`, `gender`, `email`,`passport_no`) VALUES (?, ?, ?,?,?)");
             ps.setString(1, username);
             ps.setString(2, password);
             ps.setString(3, gender);
             ps.setString(4, email);
+            ps.setString(5,passport_no);
             int execute = ps.executeUpdate();
             if (execute != 0) {
                 return Response.status(200).entity("Registration success, your username is:" + username).build();

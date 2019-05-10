@@ -1,7 +1,6 @@
-Now all documents change to this site:
+below documents are deprecated, new document now change to:
 https://cccbd.top:8443/RESTHello/apidoc/index.html
 
-https://cccbd.top:8443/RESTHello
 [TOC]
 ## Register & Login
 #### login
@@ -165,6 +164,7 @@ https://cccbd.top:8443/RESTHello
 
    
 
+
 #### process claim(employee)
     @apiName process claim
     @api {post}     /manage/process
@@ -226,7 +226,7 @@ https://cccbd.top:8443/RESTHello
             "price": 200
         }
     ]
-    
+
 #### get product detail
     @apiName get a product detail
     @apiPermission  all
@@ -239,13 +239,13 @@ https://cccbd.top:8443/RESTHello
         "content": "This is a really good insurance",
         "price": 100
     }
-    
+
 #### buy product
     @apiName buy a new product
     @apiPermission  need user_token
     @api {post}   /transaction/buy_product
     @apiParam {Int} productNo
-    
+
 ## Reset Password
 
 #### Send verify code for reset password 
@@ -254,7 +254,7 @@ https://cccbd.top:8443/RESTHello
     @api {post}   /verify_code/email_customer
     @apiParam {String} address  邮箱地址 
     @apiSuccess (200) {PlainText}
-    
+
 
 #### Reset
     @apiName reset
@@ -269,39 +269,19 @@ https://cccbd.top:8443/RESTHello
 
 <br><br><br>
 
-## test user
-name:testuser   
-pass:123456 
+#### test user account
+username:testuser   
+password:123456 
 
-## test employee
-name:testemployee   
-pass:123456 
+#### test employee account
+username:testemployee   
+password:123456 
 
 
 ## todo
-* test auto generate api document (working)
-* change framework to spring boot (give up)
 * 改写web.xml为autoscan模式 (fail)
 * 对所有网页添加token验证 (...好麻烦啊,spring真香)
 * 单元测试...咋写啊!
-* 参考resteasy最佳实践
-
-presentation-flow
-ppt:
-边展示(注册与登陆)边介绍前端:3min
-what:界面，bootstrap，下载数据到表格
-how:
-benefit:use bootstrap, easy to cross platform/browser, and adapt mobile platform
-后端:2min
-what:database, 域名，服务器，RESTful API, micro server
-how:Digital Ocean cloud server with tomcat
-benefit:High Scalability and Flexibility
-前后端连接:详细1min
-how to pack(打包) to mobile:1min
-展示2:1min
-展望未来计划1min
-ask:question 1 min
 
 apidoc -i src/main/java -o src/main/webapp/apidoc/
-
-
+electron-packager . "Hibernia-Sino Insurance" --platform=win32 --overwrite

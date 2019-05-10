@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="RESTHello" target="1.5" />
+      <module name="RESTHello" target="6" />
     </bytecodeTargetLevel>
   </component>
 </project>

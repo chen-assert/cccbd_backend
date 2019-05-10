@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="cccbd.top">
+  <component name="PublishConfigData" serverName="178.128.59.204">
     <serverData>
-      <paths name="cccbd.top">
+      <paths name="178.128.59.204">
         <serverdata>
           <mappings>
             <mapping deploy="/" local="$PROJECT_DIR$" web="/" />

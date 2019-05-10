@@ -12,6 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static org.apache.commons.codec.digest.DigestUtils.sha384Hex;
+
 /**
  * @apiGroup Login and Register
  * @api {get/post}   /login/send/   login as customer
@@ -51,6 +53,7 @@ public class Login {
     @Produces("application/json; charset=utf-8")
     public Response login(@QueryParam("username") String username, @QueryParam("password") String password) throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.jdbc.Driver");
+        password=sha384Hex(password);
         Connection conn;
         try {
             conn = new sqlpool().getSingletons().getConnection();
@@ -125,6 +128,7 @@ public class Login {
     @Path("/send_employee")
     @Produces("application/json; charset=utf-8")
     public Response login_empolyee(@QueryParam("username") String username, @QueryParam("password") String password) throws SQLException, ClassNotFoundException {
+        password=sha384Hex(password);
         Connection conn;
         try {
             conn = new sqlpool().getSingletons().getConnection();

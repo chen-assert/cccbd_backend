@@ -2,20 +2,13 @@ import com.nicolaifsf.rest.HelloRestService;
 import com.sendgrid.*;
 import org.jboss.resteasy.core.Dispatcher;
 import org.jboss.resteasy.mock.MockDispatcherFactory;
-import org.jboss.resteasy.mock.MockHttpRequest;
-import org.jboss.resteasy.mock.MockHttpResponse;
 import org.jboss.resteasy.plugins.server.resourcefactory.POJOResourceFactory;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.apache.commons.codec.digest.DigestUtils;
 
-import javax.ws.rs.core.Response;
-import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
-import java.security.SecureRandom;
-import java.util.Date;
-import java.util.Random;
-
+import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
+import static org.apache.commons.codec.digest.DigestUtils.sha384Hex;
 import static sql.sqldata.sendgrid_api_key;
 
 public class test1 {
@@ -33,22 +26,10 @@ public class test1 {
     // One of our actual tests!
     @Test
     public void helloTest() {
-        try {
-            // Specify the endpoint we want to test, for our example, we use "/hello"
-            MockHttpRequest request = MockHttpRequest.get("/hello");
-            MockHttpResponse response = new MockHttpResponse();
-            // Invoke the request
-            dispatcher.invoke(request, response);
-            // Check the status code
-            Assert.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-
-            // Check that the message we receive is "hello"
-            Assert.assertEquals("hello", response.getContentAsString());
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        String w="123456";
+        String sha384hex = sha384Hex(w);
+        System.out.println(sha384hex);
+        System.out.println(System.getProperty("os.name"));
     }
 
     @Test
@@ -74,8 +55,9 @@ public class test1 {
             e.printStackTrace();
         }
     }
+
     @Test
-    public void test2(){
-        System.out.println("hello world".substring(0,9));
+    public void test2() {
+        System.out.println("hello world".substring(0, 9));
     }
 }

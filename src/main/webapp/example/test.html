@@ -1,0 +1,31 @@
+<html>
+<body>
+<h1>JAX-RS Upload Form</h1>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script>
+    function send() {
+        var fd = new FormData();
+        fd.append('uploadedFile', $("#file")[0].files[0]);
+        fd.append('name',  $("#name").val());
+        $.ajax({
+            url: '../hello/upload',
+            data: fd,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            success: function (data) {
+                alert(data);
+            }
+        });
+    }
+</script>
+<form action="../hello/upload" method="post" enctype="multipart/form-data" onsubmit="event.preventDefault();">
+    <p>
+        Select a file : <input id="file" type="file" name="uploadedFile" size="50"/>
+    </p>
+    <input type="text" name="name" id="name" size="50"/>
+    <input type="submit" value="Upload It" onclick="send()"/>
+</form>
+
+</body>
+</html>

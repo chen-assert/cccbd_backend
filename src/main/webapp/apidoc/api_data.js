@@ -201,6 +201,13 @@ define({ "api": [
             "optional": false,
             "field": "verified_code",
             "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "passport_no",
+            "description": ""
           }
         ]
       }

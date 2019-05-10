@@ -1,11 +1,11 @@
 $(document).ready(function () {
     $("#button1").click(function () {
-        /*
+
 		let mydata = new FormData();
-        mydata.append("username", "testuser");
-        mydata.append("password", "123456");
+        mydata.append("username", $("#username").val());
+        mydata.append("password", $("#password").val());
         $.ajax({
-            url: 'http://cccbd.top:8080/RESTHello/login/send',
+            url: 'http://localhost:8080/RESTHello/login/send',
             data: urlencodeFormData(mydata),
             type: 'POST',
             xhrFields: {
@@ -16,21 +16,21 @@ $(document).ready(function () {
                 $("#result").html(jqXHR.responseText);
             }
         });
-		*/
+
         //上下两段的效果一样
         //但是上面部分需要jQuery
-        let mydata = new FormData();
-        mydata.append("username", $("#username").val());
-        mydata.append("password", $("#password").val());
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'http://cccbd.top:8080/RESTHello/login/send', true);
-        xhr.withCredentials = true;	//!!
-        //xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        xhr.onload = function () {
-            console.log(this.responseText);
-            $("#result").html(this.responseText);
-        };
-        xhr.send(urlencodeFormData(mydata));
+        // let mydata = new FormData();
+        // mydata.append("username", $("#username").val());
+        // mydata.append("password", $("#password").val());
+        // var xhr = new XMLHttpRequest();
+        // xhr.open('POST', 'http://localhost:8080/RESTHello/login/send', true);
+        // xhr.withCredentials = true;	//!!
+        // //xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        // xhr.onload = function () {
+        //     console.log(this.responseText);
+        //     $("#result").html(this.responseText);
+        // };
+        // xhr.send(urlencodeFormData(mydata));
     });
 });
 
