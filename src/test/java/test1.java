@@ -26,7 +26,7 @@ public class test1 {
     // One of our actual tests!
     @Test
     public void helloTest() {
-        String w="123456";
+        String w="qwerty";
         String sha384hex = sha384Hex(w);
         System.out.println(sha384hex);
         System.out.println(System.getProperty("os.name"));

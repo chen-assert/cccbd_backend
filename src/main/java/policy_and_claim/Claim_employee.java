@@ -52,7 +52,7 @@ public class Claim_employee {
             return Response.status(403).entity(m).build();
         }
         //if(token_employee== null) return new MyMessage("need login").anogetResponse();
-        PreparedStatement ps = conn.prepareStatement("select * from Claim where state='waiting'");
+        PreparedStatement ps = conn.prepareStatement("select * from Claim where (state ='waiting' or state='request')");
         //ps.setString(1, token_employee);
         ResultSet res = ps.executeQuery();
         LinkedList<Claim_user.Cl> pos = new LinkedList<Claim_user.Cl>();
@@ -78,7 +78,7 @@ public class Claim_employee {
             return Response.status(403).entity(m).build();
         }
         //if(token_employee== null) return new MyMessage("need login").anogetResponse();
-        PreparedStatement ps = conn.prepareStatement("select * from Claim where state <> 'waiting'");
+        PreparedStatement ps = conn.prepareStatement("select * from Claim where (state <>'waiting' and state<>'request')");
         //ps.setString(1, token_employee);
         ResultSet res = ps.executeQuery();
         LinkedList<Claim_user.Cl> pos = new LinkedList<Claim_user.Cl>();
@@ -104,7 +104,7 @@ public class Claim_employee {
             return Response.status(403).entity(m).build();
         }
         if (token == null) return new MyMessage("need login").anogetResponse();
-        PreparedStatement ps = conn.prepareStatement("select * from Claim where state='waiting' and uid=(select uid from User where token=?)");
+        PreparedStatement ps = conn.prepareStatement("select * from Claim where (state ='waiting' or state='request') and uid=(select uid from User where token=?)");
         ps.setString(1, token);
         ResultSet res = ps.executeQuery();
         LinkedList<Claim_user.Cl> pos = new LinkedList<Claim_user.Cl>();
@@ -130,7 +130,7 @@ public class Claim_employee {
             return Response.status(403).entity(m).build();
         }
         if (token == null) return new MyMessage("need login").anogetResponse();
-        PreparedStatement ps = conn.prepareStatement("select * from Claim where state <> 'waiting' and uid=(select uid from User where token=?)");
+        PreparedStatement ps = conn.prepareStatement("select * from Claim where (state <>'waiting' and state<>'request') and uid=(select uid from User where token=?)");
         ps.setString(1, token);
         ResultSet res = ps.executeQuery();
         LinkedList<Claim_user.Cl> pos = new LinkedList<Claim_user.Cl>();

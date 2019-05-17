@@ -8,9 +8,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
   <head>
-    <title>$Title$</title>
+    <title>Hibernia-Sino Travel Insurance</title>
   </head>
   <body>
+  Hibernia-Sino Travel Insurance
   This is default page
   </body>
 </html>

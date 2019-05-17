@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Random;
 
+import static org.apache.commons.codec.digest.DigestUtils.sha384Hex;
 import static sql.sqldata.sendgrid_api_key;
 
 
@@ -51,7 +52,7 @@ public class Mail {
         checkps.setString(1, address);
         ResultSet resultSet = checkps.executeQuery();
         if (resultSet.next()) {
-            return Response.status(403).entity("this address has been used").build();
+            return Response.status(403).entity("this email has been used").build();
         }
         try {
             int flag = send_email(address);
@@ -120,6 +121,7 @@ public class Mail {
     public Response reset_employee(@FormParam("username") String username, @FormParam("password") String password,
                                    @FormParam("email") String email, @FormParam("verified_code") String verified_code)
             throws SQLException {
+        password=sha384Hex(password);
         Connection conn = new sqlpool().getSingletons().getConnection();
         PreparedStatement codeps = conn.prepareStatement("select verify_code from Email_verification where email_address=?");
         codeps.setString(1, email);
@@ -182,6 +184,7 @@ public class Mail {
     public Response reset_customer(@FormParam("username") String username, @FormParam("password") String password,
                                    @FormParam("email") String email, @FormParam("verified_code") String verified_code)
             throws SQLException {
+        password=sha384Hex(password);
         Connection conn = new sqlpool().getSingletons().getConnection();
         PreparedStatement codeps = conn.prepareStatement("select verify_code from Email_verification where email_address=?");
         codeps.setString(1, email);

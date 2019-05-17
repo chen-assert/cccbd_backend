@@ -162,11 +162,11 @@ public class Process {
             MyMessage m = new MyMessage("sql fail");
             return Response.status(403).entity(m).build();
         }
-        PreparedStatement ps = conn.prepareStatement("select count(*) from Claim where state ='waiting'");
+        PreparedStatement ps = conn.prepareStatement("select count(*) from Claim where (state ='waiting' or state='request')");
         ResultSet rs = ps.executeQuery();
         rs.next();
         int a = rs.getInt(1);
-        PreparedStatement ps2 = conn.prepareStatement("select count(*) from Claim where state <>'waiting'");
+        PreparedStatement ps2 = conn.prepareStatement("select count(*) from Claim where (state <>'waiting' and state<>'request')");
         ResultSet rs2 = ps2.executeQuery();
         rs2.next();
         int b = rs2.getInt(1);
@@ -187,12 +187,12 @@ public class Process {
             }
         }
         Connection conn = new sqlpool().getSingletons().getConnection();
-        PreparedStatement ps = conn.prepareStatement("select count(claimNo) from Claim where state ='waiting' and uid=(select uid from User where token=?)");
+        PreparedStatement ps = conn.prepareStatement("select count(claimNo) from Claim where (state ='waiting' OR state='request') and uid=(select uid from User where token=?)");
         ps.setString(1, token);
         ResultSet rs = ps.executeQuery();
         rs.next();
         int a = rs.getInt(1);
-        PreparedStatement ps2 = conn.prepareStatement("select count(claimNo) from Claim where state <>'waiting' and uid=(select uid from User where token=?)");
+        PreparedStatement ps2 = conn.prepareStatement("select count(claimNo) from Claim where (state <>'waiting' and state <>'request') and uid=(select uid from User where token=?)");
         ps2.setString(1, token);
         ResultSet rs2 = ps2.executeQuery();
         rs2.next();
